@@ -10,12 +10,9 @@ defineClass('Consoloid.FileList.DataSource', 'Consoloid.Ui.List.DataSource.Array
       this.requireProperty('path');
     },
 
-    getDataByRange: function(callback, fromIndex, toIndex)
+    _setFilterValues: function(callback, filterValues)
     {
       if (!this.dataReady) {
-        var
-          $base = this.__base,
-          $this = this;
         this.get("server_listfiles").callAsync(
           "listFiles",
           [this.path],
@@ -24,7 +21,7 @@ defineClass('Consoloid.FileList.DataSource', 'Consoloid.Ui.List.DataSource.Array
               this.data = data;
               this.dataReady = true;
               this._clearFilters();
-              $base.apply($this, [callback, fromIndex, toIndex]);
+              callback(undefined);
             }.bind(this),
             error: function(error) {
               callback(error);
@@ -34,7 +31,7 @@ defineClass('Consoloid.FileList.DataSource', 'Consoloid.Ui.List.DataSource.Array
         return;
       }
 
-      this.__base(callback, fromIndex, toIndex);
+      callback(undefined);
     },
   }
 );
