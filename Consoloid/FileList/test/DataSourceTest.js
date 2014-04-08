@@ -65,10 +65,10 @@ describeUnitTest('Consoloid.FileList.DataSource', function() {
        callback.calledWith(undefined, { data: [{ name: ".some.hidden.file" }, { name: "some.file" }], count: 2 }).should.be.ok;
     });
 
-    it("should sort data in alphabetical order separating folders from files", function() {
-      listFiles.callAsync.args[0][2].success([{ name: "b.file", isFile: true }, { name: "b.folder", isFile: false }, { name: "a.folder", isFile: false }, { name: "a.file", isFile: true }]);
+    it("should sort data in case insensitive alphabetical order separating folders from files", function() {
+      listFiles.callAsync.args[0][2].success([{ name: "b.file", isFile: true }, { name: "B.FOLDER", isFile: false }, { name: "a.folder", isFile: false }, { name: "a.file", isFile: true }]);
 
-      callback.calledWith(undefined, { data: [{ name: "a.folder", isFile: false }, { name: "b.folder", isFile: false }, { name: "a.file", isFile: true }, { name: "b.file", isFile: true }], count: 4 }).should.be.ok;
+      callback.calledWith(undefined, { data: [{ name: "a.folder", isFile: false }, { name: "B.FOLDER", isFile: false }, { name: "a.file", isFile: true }, { name: "b.file", isFile: true }], count: 4 }).should.be.ok;
     });
   });
 });

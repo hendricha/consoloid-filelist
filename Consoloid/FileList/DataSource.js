@@ -61,7 +61,7 @@ defineClass('Consoloid.FileList.DataSource', 'Consoloid.Ui.List.DataSource.Array
           }
         }.bind(this))
         .sort(function(a, b) {
-          return this.data[a].name < this.data[b].name ? -1 : +1;
+          return this.data[a].name.toLowerCase() < this.data[b].name.toLowerCase() ? -1 : +1;
         }.bind(this));
     }
   }
