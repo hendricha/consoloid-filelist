@@ -44,9 +44,25 @@ defineClass('Consoloid.FileList.DataSource', 'Consoloid.Ui.List.DataSource.Array
         }
       }.bind(this));
 
-      this.filteredDataIndexes.sort(function(a, b) {
-        return this.data[a].name < this.data[b].name ? -1 : +1;
-      }.bind(this));
+      var sortedFolderIndexes = this.__sortFileOrFolderIndexes(false);
+      var sortedFileIndexes = this.__sortFileOrFolderIndexes(true);
+
+      this.filteredDataIndexes = sortedFolderIndexes.concat(sortedFileIndexes);
+    },
+
+    __sortFileOrFolderIndexes: function(sortFiles)
+    {
+      return this.filteredDataIndexes
+        .filter(function(index) {
+          if (sortFiles) {
+            return this.data[index].isFile;
+          } else {
+            return !this.data[index].isFile;
+          }
+        }.bind(this))
+        .sort(function(a, b) {
+          return this.data[a].name < this.data[b].name ? -1 : +1;
+        }.bind(this));
     }
   }
 );
