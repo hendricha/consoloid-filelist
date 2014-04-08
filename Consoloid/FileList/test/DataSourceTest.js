@@ -54,5 +54,15 @@ describeUnitTest('Consoloid.FileList.DataSource', function() {
 
       callback.calledWith("OMG, THE ERRORS! THEY ARE MULTIPLYING!").should.be.ok;
     });
+
+    it("should hide dot files by default", function() {
+       listFiles.callAsync.args[0][2].success([{ name: "some.file" }, { name: ".some.hidden.file" }]);
+
+       callback.calledWith(undefined, { data: [{ name: "some.file" }], count: 1 }).should.be.ok;
+
+       dataSource.setFilterValues(callback, { showHidden: true }, 0, 1);
+
+       callback.calledWith(undefined, { data: [{ name: "some.file" }, { name: ".some.hidden.file" }], count: 2 }).should.be.ok;
+    });
   });
 });

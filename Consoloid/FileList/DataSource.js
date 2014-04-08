@@ -20,7 +20,7 @@ defineClass('Consoloid.FileList.DataSource', 'Consoloid.Ui.List.DataSource.Array
             success: function(data) {
               this.data = data;
               this.dataReady = true;
-              this._clearFilters();
+              this.__generateFilteredIndexes(filterValues);
               callback(undefined);
             }.bind(this),
             error: function(error) {
@@ -31,7 +31,18 @@ defineClass('Consoloid.FileList.DataSource', 'Consoloid.Ui.List.DataSource.Array
         return;
       }
 
+      this.__generateFilteredIndexes(filterValues);
       callback(undefined);
     },
+
+    __generateFilteredIndexes: function(filterValues)
+    {
+      this.filteredDataIndexes = [];
+      this.data.forEach(function(file, index) {
+        if (filterValues.showHidden || file.name[0] != ".") {
+          this.filteredDataIndexes.push(index);
+        }
+      }.bind(this))
+    }
   }
 );
