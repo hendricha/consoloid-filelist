@@ -42,7 +42,11 @@ defineClass('Consoloid.FileList.DataSource', 'Consoloid.Ui.List.DataSource.Array
         if (filterValues.showHidden || file.name[0] != ".") {
           this.filteredDataIndexes.push(index);
         }
-      }.bind(this))
+      }.bind(this));
+
+      this.filteredDataIndexes.sort(function(a, b) {
+        return this.data[a].name < this.data[b].name ? -1 : +1;
+      }.bind(this));
     }
   }
 );

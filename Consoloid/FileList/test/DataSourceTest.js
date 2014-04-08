@@ -56,13 +56,19 @@ describeUnitTest('Consoloid.FileList.DataSource', function() {
     });
 
     it("should hide dot files by default", function() {
-       listFiles.callAsync.args[0][2].success([{ name: "some.file" }, { name: ".some.hidden.file" }]);
+       listFiles.callAsync.args[0][2].success([{ name: ".some.hidden.file" }, { name: "some.file" }]);
 
        callback.calledWith(undefined, { data: [{ name: "some.file" }], count: 1 }).should.be.ok;
 
        dataSource.setFilterValues(callback, { showHidden: true }, 0, 1);
 
-       callback.calledWith(undefined, { data: [{ name: "some.file" }, { name: ".some.hidden.file" }], count: 2 }).should.be.ok;
+       callback.calledWith(undefined, { data: [{ name: ".some.hidden.file" }, { name: "some.file" }], count: 2 }).should.be.ok;
+    });
+
+    it("should sort data in alphabetical order", function() {
+      listFiles.callAsync.args[0][2].success([{ name: "b.file" }, { name: "a.file" }]);
+
+      callback.calledWith(undefined, { data: [{ name: "a.file" }, { name: "b.file" }], count: 2 }).should.be.ok;
     });
   });
 });
