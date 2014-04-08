@@ -1,7 +1,7 @@
 definitions:
   server_listfiles:
     cls: Consoloid.FileList.Server.ListFiles
-    shared: true
+    shared: false
     remoting:
       defaults:
         responseMode: responsePassing
