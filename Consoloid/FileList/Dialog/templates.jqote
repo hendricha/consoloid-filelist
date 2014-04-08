@@ -1,0 +1,16 @@
+<script id="Consoloid-FileList-Dialog-List" type="text/x-jqote-template">
+<![CDATA[
+  <div class="ui breadcrumb">
+    <% this.path.split("/").forEach(function(section, index) { %>
+      <% if (index < this.path.split("/").length - 1) { %>
+        <div class="section"><%= section || "/" %></div>
+        <i class="right arrow icon divider"></i>
+      <% } else { %>
+        <div class="active section"><%= section %></div>
+      <% }; %>
+    <% }.bind(this)); %>
+  </div>
+  <%= $('#Consoloid-Ui-List-Dialog').jqote(this) %>
+]]>
+</script>
+
