@@ -1,36 +1,37 @@
 require('consoloid-framework/Consoloid/Test/UnitTest');
 require('consoloid-console/Consoloid/Ui/List/DataSource/Base');
 require('consoloid-console/Consoloid/Ui/List/DataSource/Array');
+require('consoloid-console/Consoloid/Interpreter/Token');
+require('consoloid-console/Consoloid/Interpreter/Tokenizable');
+require('consoloid-console/Consoloid/Context/Object');
+require('../Context/File.js');
+require('../Context/Folder.js');
 require('../DataSource.js');
 describeUnitTest('Consoloid.FileList.DataSource', function() {
   var
     dataSource,
     listFiles,
-    callback;
+    callback,
+    context;
 
-  describe("#__constructor(options)", function() {
-    it("should require a path", function() {
-      (function() {
-        env.create(Consoloid.FileList.DataSource, {});
-      }).should.throwError();
+  beforeEach(function() {
+    context = {
+      add: sinon.stub()
+    };
+    env.addServiceMock("context", context);
 
-      (function() {
-        env.create(Consoloid.FileList.DataSource, { path: "/something/something" });
-      }).should.not.throwError();
-    });
+    listFiles = {
+      callAsync: sinon.stub()
+    };
+    env.addServiceMock("server_listfiles", listFiles);
+
+    dataSource = env.create(Consoloid.FileList.DataSource, { path: "/something/something" });
+
+    callback = sinon.stub();
   });
 
   describe("#setFilterValues(callback, filterValues, fromIndex, toIndex)", function() {
     beforeEach(function() {
-      callback = sinon.stub();
-
-      listFiles = {
-        callAsync: sinon.stub()
-      };
-      env.addServiceMock("server_listfiles", listFiles);
-
-      dataSource = env.create(Consoloid.FileList.DataSource, { path: "/something/something" });
-
       dataSource.setFilterValues(callback, {}, 0, 3);
     });
 
@@ -47,6 +48,16 @@ describeUnitTest('Consoloid.FileList.DataSource', function() {
       listFiles.callAsync.calledOnce.should.be.ok;
       callback.calledTwice.should.be.ok;
       callback.calledWith(undefined, { data: [{ name: "some.file" }, { name: "some.other.file" }], count: 2 }).should.be.ok;
+    });
+
+    it("should add all files and folder with absolute path to context", function() {
+      listFiles.callAsync.args[0][2].success([{ name: "some.file", isFile: true }, { name: "some.folder", isFile: false }]);
+
+      context.add.args[0][0].name.should.equal("/something/something/some.file");
+      (context.add.args[0][0] instanceof(Consoloid.FileList.Context.File)).should.be.ok;
+
+      context.add.args[1][0].name.should.equal("/something/something/some.folder");
+      (context.add.args[1][0] instanceof(Consoloid.FileList.Context.Folder)).should.be.ok;
     });
 
     it("should work with remote error", function() {
@@ -69,6 +80,14 @@ describeUnitTest('Consoloid.FileList.DataSource', function() {
       listFiles.callAsync.args[0][2].success([{ name: "b.file", isFile: true }, { name: "B.FOLDER", isFile: false }, { name: "a.folder", isFile: false }, { name: "a.file", isFile: true }]);
 
       callback.calledWith(undefined, { data: [{ name: "a.folder", isFile: false }, { name: "B.FOLDER", isFile: false }, { name: "a.file", isFile: true }, { name: "b.file", isFile: true }], count: 4 }).should.be.ok;
+    });
+  });
+
+  describe("#setPath(path)", function() {
+    it("should set path", function() {
+      dataSource.setPath("/something/else");
+      dataSource.setFilterValues(callback, {}, 0, 3);
+      listFiles.callAsync.calledWith('listFiles', ["/something/else"]);
     });
   });
 });

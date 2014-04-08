@@ -6,8 +6,6 @@ defineClass('Consoloid.FileList.DataSource', 'Consoloid.Ui.List.DataSource.Array
         data: [],
         dataReady: false
       }, options));
-
-      this.requireProperty('path');
     },
 
     _setFilterValues: function(callback, filterValues)
@@ -20,6 +18,7 @@ defineClass('Consoloid.FileList.DataSource', 'Consoloid.Ui.List.DataSource.Array
             success: function(data) {
               this.data = data;
               this.dataReady = true;
+              this.__addContextObjects();
               this.__generateFilteredIndexes(filterValues);
               callback(undefined);
             }.bind(this),
@@ -33,6 +32,18 @@ defineClass('Consoloid.FileList.DataSource', 'Consoloid.Ui.List.DataSource.Array
 
       this.__generateFilteredIndexes(filterValues);
       callback(undefined);
+    },
+
+    __addContextObjects: function()
+    {
+      var
+        context = this.container.get('context');
+      this.data.forEach(function(item) {
+        context.add(this.create(item.isFile ? 'Consoloid.FileList.Context.File' : 'Consoloid.FileList.Context.Folder', {
+          name: this.path + "/" + item.name,
+          container: this.container
+        }));
+      }.bind(this));
     },
 
     __generateFilteredIndexes: function(filterValues)
@@ -63,6 +74,12 @@ defineClass('Consoloid.FileList.DataSource', 'Consoloid.Ui.List.DataSource.Array
         .sort(function(a, b) {
           return this.data[a].name.toLowerCase() < this.data[b].name.toLowerCase() ? -1 : +1;
         }.bind(this));
+    },
+
+    setPath: function(path)
+    {
+      this.path = path;
+      return this;
     }
   }
 );
