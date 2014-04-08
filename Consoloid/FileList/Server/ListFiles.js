@@ -5,7 +5,7 @@ defineClass('Consoloid.FileList.Server.ListFiles', 'Consoloid.Server.Service',
       this.__base($.extend({
         fsModule: require("fs"),
         pathModule: require("path"),
-        result: {}
+        result: []
       }, options));
     },
 
@@ -38,11 +38,12 @@ defineClass('Consoloid.FileList.Server.ListFiles', 'Consoloid.Server.Service',
           return;
         }
 
-        this.result[this.pathModule.basename(path)] = {
+        this.result.push({
+          name: this.pathModule.basename(path),
           isFile: stats.isFile(),
           size: stats.size,
           mtime: stats.mtime.getTime()
-        };
+        });
         callback();
       }.bind(this));
     },

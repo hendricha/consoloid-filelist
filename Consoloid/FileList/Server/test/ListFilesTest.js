@@ -72,17 +72,20 @@ describeUnitTest('Consoloid.FileList.Server.ListFiles', function() {
       service.sendResult.args[0][0].should.equal(res);
       var result = service.sendResult.args[0][1];
 
-      result.foo.isFile.should.equal(true);
-      result.foo.size.should.equal(9001);
-      result.foo.mtime.should.equal(new Date("16 May 1986 10:24:11 GMT").getTime());
+      result[0].name.should.equal("foo");
+      result[0].isFile.should.equal(true);
+      result[0].size.should.equal(9001);
+      result[0].mtime.should.equal(new Date("16 May 1986 10:24:11 GMT").getTime());
 
-      result.bar.isFile.should.equal(true);
-      result.bar.size.should.equal(42);
-      result.bar.mtime.should.equal(new Date("22 March 1987 10:24:11 GMT").getTime());
+      result[1].name.should.equal("bar");
+      result[1].isFile.should.equal(true);
+      result[1].size.should.equal(42);
+      result[1].mtime.should.equal(new Date("22 March 1987 10:24:11 GMT").getTime());
 
-      result.foobar.isFile.should.equal(false);
-      result.foobar.size.should.equal(13);
-      result.foobar.mtime.should.equal(new Date("4 Apr 2014 15:24:25 GMT+0200").getTime());
+      result[2].name.should.equal("foobar");
+      result[2].isFile.should.equal(false);
+      result[2].size.should.equal(13);
+      result[2].mtime.should.equal(new Date("4 Apr 2014 15:24:25 GMT+0200").getTime());
     });
 
     it("should kill the queue on an error and callback with the error", function() {
