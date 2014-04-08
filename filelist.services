@@ -1,0 +1,41 @@
+definitions:
+  file.list.sentence:
+    tags: [ "sentence" ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: file.list.dialog
+      patterns:
+        - Show file view
+        - Show files of <folder>
+        - Show file view of <folder>
+        - Browse folder <folder>
+        - Browse files of <folder>
+      arguments:
+        folder:
+          type: Consoloid.FileList.Context.Folder
+          pattern: of folder <value>
+          required: false
+  file.list.dialog:
+    cls: Consoloid.FileList.Dialog.FileList
+    shared: false
+    options:
+      name: Browsed folder
+      list: '@file.list'
+      defaultFolder: "/tmp"
+      responseTemplateId: Consoloid-FileList-Dialog-List
+
+  file.list:
+    cls: Consoloid.FileList.ListWidget
+    options:
+      dataSourceClass: Consoloid.FileList.DataSource
+      dataSourceOptions: {}
+      factoryClass: Consoloid.Ui.List.Factory.Collapsing
+      factoryOptions:
+        collapsedTemplateId: Consoloid-FileList-ItemCollapsed
+        extendedTemplateId: Consoloid-FileList-ItemOpened
+      listViewClass: Consoloid.Ui.List.View.BoundaryShowing
+      listViewOptions:
+        radius: 2
+        numPerPage: 10
+      scrollbarClass: Consoloid.Ui.List.Scrollbar.Base
+      scrollbarOptions: {}

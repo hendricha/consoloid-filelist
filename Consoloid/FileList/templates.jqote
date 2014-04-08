@@ -1,0 +1,33 @@
+<script id="Consoloid-FileList-ItemCollapsed" type="text/x-jqote-template">
+<![CDATA[
+  <div class="file-list-item">
+    <%= $('#Consoloid-FileList-ItemHeader').jqote(this) %>
+  </div>
+]]>
+</script>
+
+<script id="Consoloid-FileList-ItemHeader" type="text/x-jqote-template">
+<![CDATA[
+  <h4 class="ui header">
+    <i class="<%= this.data.isFile ? "file" : "folder" %> icon"></i>
+    <%= this.data.name %>
+  </h4>
+]]>
+</script>
+
+<script id="Consoloid-FileList-ItemOpened" type="text/x-jqote-template">
+<![CDATA[
+  <div class="file-list-item">
+    <%= $('#Consoloid-FileList-ItemHeader').jqote(this) %>
+    <div class="ui label">
+      <%= __("Last modified") %>
+      <div class="detail"><%= new Date(this.data.mtime).toLocaleString() %></div>
+    </div>
+    
+    <div class="ui label">
+      <%= __("Size") %>
+      <div class="detail"><%= this.data.size %>bytes</div>
+    </div>
+  </div>
+]]>
+</script>
