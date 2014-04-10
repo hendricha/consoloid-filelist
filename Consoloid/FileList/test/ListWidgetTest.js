@@ -12,6 +12,7 @@ describeUnitTest('Consoloid.FileList.ListWidget', function() {
   beforeEach(function() {
     dataSource = {
       setPath: sinon.stub(),
+      getPath: sinon.stub().returns("/something/something"),
       hasFile: sinon.stub().returns(true),
       hasFolder: sinon.stub().returns(true)
     };
@@ -35,6 +36,14 @@ describeUnitTest('Consoloid.FileList.ListWidget', function() {
       widget.setPath("/something/something");
 
       dataSource.setPath.calledWith("/something/something").should.be.ok;
+    });
+  });
+
+  describe("#getPath()", function() {
+    it("should get path of data source", function() {
+      widget.getPath().should.equal("/something/something");
+
+      dataSource.getPath.calledOnce.should.be.ok;
     });
   });
 

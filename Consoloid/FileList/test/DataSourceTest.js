@@ -91,6 +91,13 @@ describeUnitTest('Consoloid.FileList.DataSource', function() {
     });
   });
 
+  describe("#getPath(path)", function() {
+    it("should get path", function() {
+      dataSource.setPath("/something/else");
+      dataSource.getPath().should.equal("/something/else");
+    });
+  });
+
   describe("checking if it has files or folders", function() {
     beforeEach(function() {
       dataSource.setFilterValues(callback, {}, 0, 3);

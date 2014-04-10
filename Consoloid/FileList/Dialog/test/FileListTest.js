@@ -31,6 +31,7 @@ describeUnitTest('Consoloid.FileList.Dialog.FileList', function() {
         bind: sinon.stub()
       }),
       setPath: sinon.stub(),
+      getPath: sinon.stub().returns("/something/something"),
       hasFile: sinon.stub().returns(true),
       hasFolder: sinon.stub().returns(true)
     };
@@ -80,6 +81,14 @@ describeUnitTest('Consoloid.FileList.Dialog.FileList', function() {
       list.hasFolder.returns(false);
 
       dialog.hasFolder("something_folder").should.not.be.ok;
+    });
+  });
+
+  describe("#getPath()", function() {
+    it("should get path of the list widget", function() {
+      dialog.getPath().should.equal("/something/something");
+
+      list.getPath.calledOnce.should.be.ok;
     });
   });
 });

@@ -6,6 +6,11 @@ defineClass('Consoloid.FileList.ListWidget', 'Consoloid.Ui.List.Widget',
       return this;
     },
 
+    getPath: function()
+    {
+      return this.dataSource.getPath();
+    },
+
     hasFile: function(file)
     {
       return this.dataSource.hasFile(file);
