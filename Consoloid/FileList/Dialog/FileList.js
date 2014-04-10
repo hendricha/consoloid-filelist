@@ -14,5 +14,15 @@ defineClass('Consoloid.FileList.Dialog.FileList', 'Consoloid.Ui.List.Dialog.Dial
       this.path = this.arguments.folder ? this.arguments.folder.value : this.defaultFolder;
       this.list.setPath(this.path);
     },
+
+    hasFile: function(file)
+    {
+      return this.list.hasFile(file);
+    },
+
+    hasFolder: function(folder)
+    {
+      return this.list.hasFolder(folder);
+    }
   }
 );

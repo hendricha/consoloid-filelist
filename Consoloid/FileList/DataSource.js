@@ -80,6 +80,20 @@ defineClass('Consoloid.FileList.DataSource', 'Consoloid.Ui.List.DataSource.Array
     {
       this.path = path;
       return this;
+    },
+
+    hasFile: function(file)
+    {
+      return this.data.some(function(item) {
+        return (item.name == file) && item.isFile;
+      });
+    },
+
+    hasFolder: function(folder)
+    {
+      return this.data.some(function(item) {
+        return (item.name == folder) && !item.isFile;
+      });
     }
   }
 );

@@ -11,7 +11,9 @@ describeUnitTest('Consoloid.FileList.ListWidget', function() {
 
   beforeEach(function() {
     dataSource = {
-      setPath: sinon.stub()
+      setPath: sinon.stub(),
+      hasFile: sinon.stub().returns(true),
+      hasFolder: sinon.stub().returns(true)
     };
 
     create = sinon.stub();
@@ -33,6 +35,28 @@ describeUnitTest('Consoloid.FileList.ListWidget', function() {
       widget.setPath("/something/something");
 
       dataSource.setPath.calledWith("/something/something").should.be.ok;
+    });
+  });
+
+  describe("#hasFile(file)", function() {
+    it("should check if data source has this file or not", function() {
+      widget.hasFile("something.txt").should.be.ok;
+      dataSource.hasFile.calledWith("something.txt").should.be.ok;
+
+      dataSource.hasFile.returns(false);
+
+      widget.hasFile("something.txt").should.not.be.ok;
+    });
+  });
+
+  describe("#hasFolder(folder)", function() {
+    it("should check if data source has this folder or not", function() {
+      widget.hasFolder("something_folder").should.be.ok;
+      dataSource.hasFolder.calledWith("something_folder").should.be.ok;
+
+      dataSource.hasFolder.returns(false);
+
+      widget.hasFolder("something_folder").should.not.be.ok;
     });
   });
 });

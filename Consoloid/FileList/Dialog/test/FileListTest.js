@@ -30,7 +30,9 @@ describeUnitTest('Consoloid.FileList.Dialog.FileList', function() {
       getEventDispatcher: sinon.stub().returns({
         bind: sinon.stub()
       }),
-      setPath: sinon.stub()
+      setPath: sinon.stub(),
+      hasFile: sinon.stub().returns(true),
+      hasFolder: sinon.stub().returns(true)
     };
 
     dialog = env.create(Consoloid.FileList.Dialog.FileList, {
@@ -56,6 +58,28 @@ describeUnitTest('Consoloid.FileList.Dialog.FileList', function() {
       dialog.handleArguments({}, {});
 
       list.setPath.calledWith("/default/path").should.be.ok;
+    });
+  });
+
+  describe("#hasFile(file)", function() {
+    it("should check if list widget has this file or not", function() {
+      dialog.hasFile("something.txt").should.be.ok;
+      list.hasFile.calledWith("something.txt").should.be.ok;
+
+      list.hasFile.returns(false);
+
+      dialog.hasFile("something.txt").should.not.be.ok;
+    });
+  });
+
+  describe("#hasFolder(folder)", function() {
+    it("should check if list widget has this folder or not", function() {
+      dialog.hasFolder("something_folder").should.be.ok;
+      list.hasFolder.calledWith("something_folder").should.be.ok;
+
+      list.hasFolder.returns(false);
+
+      dialog.hasFolder("something_folder").should.not.be.ok;
     });
   });
 });

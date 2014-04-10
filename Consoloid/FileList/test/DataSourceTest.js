@@ -90,4 +90,27 @@ describeUnitTest('Consoloid.FileList.DataSource', function() {
       listFiles.callAsync.calledWith('listFiles', ["/something/else"]);
     });
   });
+
+  describe("checking if it has files or folders", function() {
+    beforeEach(function() {
+      dataSource.setFilterValues(callback, {}, 0, 3);
+      listFiles.callAsync.args[0][2].success([{ name: "some.file", isFile: true }, { name: "some.folder", isFile: false }]);
+    });
+
+    describe("#hasFile(file)", function() {
+      it("should check if data source has this file or not", function() {
+        dataSource.hasFile("some.file").should.be.ok;
+
+        dataSource.hasFile("something.txt").should.not.be.ok;
+      });
+    });
+
+    describe("#hasFolder(folder)", function() {
+      it("should check if data source has this folder or not", function() {
+        dataSource.hasFolder("some.folder").should.be.ok;
+
+        dataSource.hasFolder("something_folder").should.not.be.ok;
+      });
+    });
+  });
 });
