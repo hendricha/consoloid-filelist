@@ -25,7 +25,7 @@ defineClass('Consoloid.FileList.PathAbsolutifier', 'Consoloid.Base.Object',
 
     __getLastFileList: function()
     {
-      var contextObjects = this.get("context").findByClass('Consoloid.FileList.Context.FileListDialog');
+      var contextObjects = this.get("context").findByClass('Consoloid.FileList.Context.List');
 
       if (contextObjects.length) {
        return contextObjects[0].entity.getList();

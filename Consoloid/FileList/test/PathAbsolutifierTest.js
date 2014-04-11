@@ -36,7 +36,7 @@ describeUnitTest('Consoloid.FileList.PathAbsolutifier', function() {
 
     it("should accept one deep relative paths if last file list dialog has that item", function() {
       validator.absolutifyFile("foobar").should.equal("/something/something/foobar");
-      context.findByClass.alwaysCalledWith('Consoloid.FileList.Context.FileListDialog');
+      context.findByClass.alwaysCalledWith('Consoloid.FileList.Context.List');
 
       context.findByClass()[0].entity.getList().hasFile.returns(false);
 
@@ -50,7 +50,7 @@ describeUnitTest('Consoloid.FileList.PathAbsolutifier', function() {
     it("should do everything validateFile does", function() {
       validator.absolutifyFolder("/etc/passwd").should.equal("/etc/passwd");
       validator.absolutifyFolder("foobar").should.equal("/something/something/foobar");
-      context.findByClass.alwaysCalledWith('Consoloid.FileList.Context.FileListDialog');
+      context.findByClass.alwaysCalledWith('Consoloid.FileList.Context.List');
 
       (function() {
         validator.absolutifyFolder("Images/Something.JPG");
