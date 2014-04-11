@@ -10,7 +10,7 @@
       <% }; %>
     <% }.bind(this)); %>
   </div>
-  <%= $('#Consoloid-Ui-List-Dialog').jqote(this) %>
+  <%= this.create("Consoloid.Widget.JQoteTemplate", { id: 'Consoloid-Ui-List-Dialog', container: this.container }).get().jqote(this) %>
 ]]>
 </script>
 
