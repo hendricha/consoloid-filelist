@@ -4,7 +4,10 @@ defineClass('Consoloid.FileList.Context.Folder', 'Consoloid.FileList.Context.Fil
   {
     fromString: function(str, container)
     {
-      return new Consoloid.FileList.Context.Folder({name:str, container:container});
+      return new Consoloid.FileList.Context.File({
+        name: container.get("file.list.path.absolutifier").absolutifyFolder(str),
+        container: container
+      });
     }
   }
 );
