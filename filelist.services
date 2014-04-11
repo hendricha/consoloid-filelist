@@ -21,7 +21,7 @@ definitions:
     options:
       name: Browsed folder
       list: '@file.list'
-      defaultFolder: "/tmp"
+      defaultFolder: "/"
       responseTemplateId: Consoloid-FileList-Dialog-List
 
   file.list:
@@ -42,4 +42,8 @@ definitions:
 
   file.list.path.absolutifier:
     cls: Consoloid.FileList.PathAbsolutifier
+    shared: true
+
+  file.list.welcome.info:
+    cls: Consoloid.FileList.Dialog.Welcome
     shared: true
