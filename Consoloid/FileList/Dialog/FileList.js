@@ -2,7 +2,9 @@ defineClass('Consoloid.FileList.Dialog.FileList', 'Consoloid.Ui.List.Dialog.Dial
   {
     __constructor: function(options)
     {
-      this.__base(options);
+      this.__base($.extend({
+        contextObjectClass: 'Consoloid.FileList.Context.List'
+      }, options));
       this.requireProperty('defaultFolder');
 
       this.get('css_loader').load("Consoloid-FileList-Dialog-filelist");

@@ -4,6 +4,10 @@ require("consoloid-framework/Consoloid/Widget/Widget");
 require("consoloid-console/Consoloid/Ui/Dialog");
 require("consoloid-console/Consoloid/Ui/List/Dialog/Dialog");
 require("../FileList");
+require("consoloid-console/Consoloid/Interpreter/Tokenizable");
+require("consoloid-console/Consoloid/Context/Object");
+require("consoloid-console/Consoloid/Ui/List/Dialog/ContextObject");
+require("../../Context/List");
 require('consoloid-framework/Consoloid/Test/UnitTest');
 
 describeUnitTest('Consoloid.FileList.Dialog.FileList', function() {
@@ -41,6 +45,12 @@ describeUnitTest('Consoloid.FileList.Dialog.FileList', function() {
       list: list,
       defaultFolder: "/default/path",
       create: sinon.stub()
+    });
+  });
+
+  describe("__constructor(options)", function() {
+    it("Should add a context class that is a file list not a generic List", function() {
+      dialog.contextObjectClass = 'Consoloid.FileList.Context.List';
     });
   });
 
