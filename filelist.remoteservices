@@ -5,3 +5,10 @@ definitions:
     remoting:
       defaults:
         responseMode: responsePassing
+
+  server_operations:
+    cls: Consoloid.FileList.Server.BasicOperations
+    shared: false
+    remoting:
+      defaults:
+        responseMode: responsePassing
