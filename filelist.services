@@ -39,3 +39,7 @@ definitions:
         numPerPage: 10
       scrollbarClass: Consoloid.Ui.List.Scrollbar.Base
       scrollbarOptions: {}
+
+  file.list.path.absolutifier:
+    cls: Consoloid.FileList.PathAbsolutifier
+    shared: true
