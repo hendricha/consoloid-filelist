@@ -8,7 +8,7 @@
 
 <script id="Consoloid-FileList-ItemHeader" type="text/x-jqote-template">
 <![CDATA[
-  <h4 class="ui header">
+  <h4 class="ui header <%= this.extended ? "less" : "more" %>">
     <i class="<%= this.data.isFile ? "file" : "folder" %> icon"></i>
     <%= this.data.name %>
   </h4>
@@ -18,15 +18,22 @@
 <script id="Consoloid-FileList-ItemOpened" type="text/x-jqote-template">
 <![CDATA[
   <div class="file-list-item">
-    <%= $('#Consoloid-FileList-ItemHeader').jqote(this) %>
-    <div class="ui label">
-      <%= __("Last modified") %>
-      <div class="detail"><%= new Date(this.data.mtime).toLocaleString() %></div>
+    <%= $('#Consoloid-FileList-ItemHeader').jqote($.extend(this, { extended: true })) %>
+    <div class="labels">
+      <div class="ui label">
+        <%= __("Last modified") %>
+        <div class="detail"><%= new Date(this.data.mtime).toLocaleString() %></div>
+      </div>
+
+      <div class="ui label">
+        <%= __("Size") %>
+        <div class="detail"><%= this.data.size %>bytes</div>
+      </div>
     </div>
-    
-    <div class="ui label">
-      <%= __("Size") %>
-      <div class="detail"><%= this.data.size %>bytes</div>
+    <div cass="toolbox">
+      <% if (!this.data.isFile) { %>
+        <%= __s("Show file view", { "of folder <value>": this.data.name }, "Show", true) %>
+      <% }; %>
     </div>
   </div>
 ]]>
