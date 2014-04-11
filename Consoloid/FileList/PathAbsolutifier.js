@@ -7,7 +7,7 @@ defineClass('Consoloid.FileList.PathAbsolutifier', 'Consoloid.Base.Object',
       }
 
       if (this.__notDeepRelativePath(file) && this.__getLastFileList().hasFile(file)) {
-        return this.__getLastFileList().getPath() + "/" + file;
+        return this.__getLastFileListPath() + file;
       }
 
       throw new Error(__("File is either not referenced by absolute path, or not in last shown file list view."));
@@ -34,6 +34,12 @@ defineClass('Consoloid.FileList.PathAbsolutifier', 'Consoloid.Base.Object',
       throw new Error(__("No file list view to find this item, try absolute path."));
     },
 
+    __getLastFileListPath: function()
+    {
+      var path = this.__getLastFileList().getPath();
+      return (path[path.length - 1] == "/") ? path : path + "/";
+    },
+
     absolutifyFolder: function(folder)
     {
       if (this.__isAbsolutePath(folder)) {
@@ -41,7 +47,7 @@ defineClass('Consoloid.FileList.PathAbsolutifier', 'Consoloid.Base.Object',
       }
 
       if (this.__notDeepRelativePath(folder) && this.__getLastFileList().hasFolder(folder)) {
-        return this.__getLastFileList().getPath() + "/" + folder;
+        return this.__getLastFileListPath() + folder;
       }
 
       throw new Error(__("Folder is either not referenced by absolute path, or not in last shown file list view."));
