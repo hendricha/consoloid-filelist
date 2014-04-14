@@ -19,7 +19,7 @@ describeUnitTest('Consoloid.FileList.Dialog.Welcome', function() {
   });
   
   describe("#setup()", function() {
-    it("should show some stats about the device (drive sizes, maybe some version info etc);")
+    it("should show some stats about the file system (drive sizes, how much is used etc);")
     it("should start the default file list view", function() {
       dialog.setup();
       dialogLauncher.startFromText.calledWith("Show file view").should.be.ok;
