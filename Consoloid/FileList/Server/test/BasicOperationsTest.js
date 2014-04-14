@@ -14,7 +14,8 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
       unlink: sinon.stub().yields(null),
       rename: sinon.stub().yields(null),
       rmdir: sinon.stub().yields(null),
-      mkdir: sinon.stub().yields(null)
+      mkdir: sinon.stub().yields(null),
+      existsSync: sinon.stub().returns(false)
     };
 
     rimraf = sinon.stub().yields(null);
@@ -45,12 +46,31 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
     });
   });
 
-  describe("#rename(res, oldPath, newPath)", function() {
+  describe("#rename(res, oldPath, newPath, overwrite)", function() {
     it("should rename the file and call the callback", function() {
-      service.rename(res, "/some/path", "/some/other/path");
-      
-      fs.rename.calledWith("/some/path", "/some/other/path").should.be.ok;
+      service.rename(res, "/some/path", "/some/other/path.txt");
+
+      fs.rename.calledWith("/some/path", "/some/other/path.txt").should.be.ok;
       service.sendResult.calledWith(res, true).should.be.ok;
+    });
+
+    it("should send error if file exists and overwrite is not set", function() {
+      fs.existsSync.returns(true);
+
+      service.rename(res, "/some/path", "/some/other/path.txt");
+
+      fs.rename.calledWith("/some/path", "/some/other/path.txt").should.not.be.ok;
+      service.sendResult.called.should.not.be.ok;
+      service.sendError.calledWith(res, "FILEEXISTS").should.be.ok;
+    });
+
+    it("should overwrite if file exists and overwrite is set", function() {
+      fs.existsSync.returns(true);
+
+      service.rename(res, "/some/path", "/some/other/path.txt", true);
+
+      fs.rename.calledWith("/some/path", "/some/other/path.txt").should.be.ok;
+      service.sendResult.called.should.be.ok;
     });
 
     it("should send the error if something happens", function() {

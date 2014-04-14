@@ -24,9 +24,13 @@ defineClass('Consoloid.FileList.Server.BasicOperations', 'Consoloid.Server.Servi
       this.sendResult(this.res, true);
     },
 
-    rename: function(res, oldPath, newPath)
+    rename: function(res, oldPath, newPath, overwrite)
     {
       this.res = res;
+      if (!overwrite && this.fsModule.existsSync(newPath)) {
+        this.sendError(this.res, "FILEEXISTS");
+        return;
+      }
       this.fsModule.rename(oldPath, newPath, this.__respond.bind(this));
     },
 
