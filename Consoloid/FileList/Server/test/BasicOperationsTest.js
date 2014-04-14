@@ -61,7 +61,7 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
     });
   });
 
-  describe("#rmdir(res, path)", function() {
+  describe("#rmdir(res, path, recursive)", function() {
     it("should remove the folder and call the callback", function() {
       service.rmdir(res, "/some/path");
 
@@ -75,19 +75,17 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
 
       service.sendError.calledWith(res, "This is an error message").should.be.ok;
     });
-  });
 
-  describe("#rimraf(res, path)", function() {
     it("should remove the folder recursively and call the callback", function() {
-      service.rimraf(res, "/some/path");
+      service.rmdir(res, "/some/path", true);
 
       rimraf.calledWith("/some/path").should.be.ok;
       service.sendResult.calledWith(res, true).should.be.ok;
     });
 
-    it("should send the error if something happens", function() {
+    it("should send the error if something happens while recursive deleting", function() {
       rimraf.yields("This is an error message");
-      service.rimraf(res, "/some/path");
+      service.rmdir(res, "/some/path", true);
 
       service.sendError.calledWith(res, "This is an error message").should.be.ok;
     });

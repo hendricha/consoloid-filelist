@@ -30,16 +30,14 @@ defineClass('Consoloid.FileList.Server.BasicOperations', 'Consoloid.Server.Servi
       this.fsModule.rename(oldPath, newPath, this.__respond.bind(this));
     },
 
-    rmdir: function(res, path)
+    rmdir: function(res, path, recursive)
     {
       this.res = res;
-      this.fsModule.rmdir(path, this.__respond.bind(this));
-    },
-
-    rimraf: function(res, path)
-    {
-      this.res = res;
-      this.rimrafModule(path, this.__respond.bind(this));
+      if (recursive) {
+        this.rimrafModule(path, this.__respond.bind(this));
+      } else {
+        this.fsModule.rmdir(path, this.__respond.bind(this));
+      };
     },
 
     mkdir: function(res, path)
