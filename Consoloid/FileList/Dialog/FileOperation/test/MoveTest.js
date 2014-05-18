@@ -5,14 +5,14 @@ require("consoloid-console/Consoloid/Ui/Dialog");
 require("consoloid-console/Consoloid/Ui/MultiStateDialog");
 require("consoloid-console/Consoloid/Ui/Volatile/Dialog");
 require("../Abstract");
-require("../CopyOrMove");
+require("../Move");
 
 require('consoloid-server/Consoloid/Server/Service');
 require("../../../Server/BasicOperations");
 
 require('consoloid-framework/Consoloid/Test/UnitTest');
 
-describeUnitTest('Consoloid.FileList.Dialog.FileOperation.CopyOrMove', function() {
+describeUnitTest('Consoloid.FileList.Dialog.FileOperation.Move', function() {
   var
     dialog,
     remoteOperations;
@@ -40,10 +40,9 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.CopyOrMove', function(
     };
     env.addServiceMock('server_operations', remoteOperations);
 
-    dialog = env.create(Consoloid.FileList.Dialog.FileOperation.CopyOrMove, {
+    dialog = env.create(Consoloid.FileList.Dialog.FileOperation.Move, {
       __addToVolatileContainer: sinon.stub(),
       render: sinon.stub(),
-      remoteMethod: 'remoteMethod'
     });
   });
 
@@ -60,7 +59,7 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.CopyOrMove', function(
 
       remoteOperations.callAsync.args[1][2].success({ result: Consoloid.FileList.Server.BasicOperations.DOES_NOT_EXIST });
 
-      remoteOperations.callAsync.thirdCall.calledWith('remoteMethod', ['/file/exists', '/file/doesnotexist', false]).should.be.true;
+      remoteOperations.callAsync.thirdCall.calledWith('rename', ['/file/exists', '/file/doesnotexist', false]).should.be.true;
 
       remoteOperations.callAsync.args[2][2].success({ result: true });
 
@@ -109,7 +108,7 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.CopyOrMove', function(
 
       remoteOperations.callAsync.args[1][2].success({ result: Consoloid.FileList.Server.BasicOperations.IS_FILE });
 
-      remoteOperations.callAsync.thirdCall.calledWith('remoteMethod', ['/file/irrelevant', '/file/exists', true]).should.be.true;
+      remoteOperations.callAsync.thirdCall.calledWith('rename', ['/file/irrelevant', '/file/exists', true]).should.be.true;
 
       remoteOperations.callAsync.args[2][2].success({ result: true });
 

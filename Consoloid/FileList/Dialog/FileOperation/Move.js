@@ -1,10 +1,10 @@
-defineClass('Consoloid.FileList.Dialog.FileOperation.CopyOrMove', 'Consoloid.FileList.Dialog.FileOperation.Abstract',
+defineClass('Consoloid.FileList.Dialog.FileOperation.Move', 'Consoloid.FileList.Dialog.FileOperation.Abstract',
   {
     __constructor: function(options)
     {
       this.__base($.extend({
-        remoteMethod: "copy",
-        sentenceText: "Copy"
+        remoteMethod: "rename",
+        sentenceText: "Move"
       }, options));
 
       getClass("Consoloid.FileList.Server.BasicOperations");
