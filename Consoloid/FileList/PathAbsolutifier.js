@@ -1,12 +1,17 @@
 defineClass('Consoloid.FileList.PathAbsolutifier', 'Consoloid.Base.Object',
   {
-    absolutifyFile: function(file)
+    absolutifyFileDoesNotNeedToExist: function(file)
+    {
+      return this.absolutifyFile(file, true);
+    },
+
+    absolutifyFile: function(file, doesNotNeedToExist)
     {
       if (this.__isAbsolutePath(file)) {
         return file;
       }
 
-      if (this.__notDeepRelativePath(file) && this.__getLastFileList().hasFile(file)) {
+      if (this.__notDeepRelativePath(file) && (doesNotNeedToExist || this.__getLastFileList().hasFile(file))) {
         return this.__getLastFileListPath() + file;
       }
 
@@ -40,13 +45,18 @@ defineClass('Consoloid.FileList.PathAbsolutifier', 'Consoloid.Base.Object',
       return (path[path.length - 1] == "/") ? path : path + "/";
     },
 
-    absolutifyFolder: function(folder)
+    absolutifyFolderDoesNotNeedToExist: function(folder)
+    {
+      return this.absolutifyFolder(folder, true);
+    },
+
+    absolutifyFolder: function(folder, doesNotNeedToExist)
     {
       if (this.__isAbsolutePath(folder)) {
         return folder;
       }
 
-      if (this.__notDeepRelativePath(folder) && this.__getLastFileList().hasFolder(folder)) {
+      if (this.__notDeepRelativePath(folder) && (doesNotNeedToExist || this.__getLastFileList().hasFolder(folder))) {
         return this.__getLastFileListPath() + folder;
       }
 

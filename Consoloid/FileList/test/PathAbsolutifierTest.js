@@ -23,7 +23,7 @@ describeUnitTest('Consoloid.FileList.PathAbsolutifier', function() {
     global.__ = function(str) { return str; };
   });
 
-  describe("#absolutifyFile(file)", function() {
+  describe("#absolutifyFile(file, doesNotNeedToExist)", function() {
     it("should return with the same absolute path it was called with", function() {
       validator.absolutifyFile("/etc/passwd").should.equal("/etc/passwd");
     });
@@ -44,9 +44,16 @@ describeUnitTest('Consoloid.FileList.PathAbsolutifier', function() {
         validator.absolutifyFile("foobar");
       }).should.throwError();
     });
+
+    it("should accept one deep relative paths even if last file list dialog does not have that item, if doesNotNeedToExist was set", function() {
+      context.findByClass()[0].entity.getList().hasFile.returns(false);
+
+      validator.absolutifyFile("foobar", true).should.equal("/something/something/foobar");
+      context.findByClass.alwaysCalledWith('Consoloid.FileList.Context.List');
+    });
   });
 
-  describe("#absolutifyFolder(folder)", function() {
+  describe("#absolutifyFolder(folder, doesNotNeedToExist)", function() {
     it("should do everything validateFile does", function() {
       validator.absolutifyFolder("/etc/passwd").should.equal("/etc/passwd");
       validator.absolutifyFolder("foobar").should.equal("/something/something/foobar");
