@@ -8,7 +8,7 @@ defineClass('Consoloid.FileList.Dialog.FileOperation.Delete', 'Consoloid.FileLis
         this.showError("Path did not exist.");
       }.bind(this), function() {
         if (this.arguments.recursively && this.arguments.recursively.value) {
-          this.showError("This is not a folder.");
+          this.showError(this.get("translator").trans("This is not a folder."));
           return;
         }
         this.get("server_operations").callAsync("unlink", [ this.arguments.path.value ], {
@@ -25,6 +25,14 @@ defineClass('Consoloid.FileList.Dialog.FileOperation.Delete', 'Consoloid.FileLis
           error: this.showError.bind(this)
         });
       }.bind(this));
+    },
+
+    showError: function(message, percentage)
+    {
+      if (message.indexOf("Error: ENOTEMPTY") === 0) {
+        message = this.get("translator").trans("Folder was not empty.") + " " + __s("Delete", { "path <value>": this.arguments.path.value, "recursively": true }, "Delete recursively", true);
+      }
+      this.__base(message, percentage);
     },
   }
 );
