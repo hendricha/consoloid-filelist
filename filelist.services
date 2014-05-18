@@ -62,7 +62,7 @@ definitions:
         path:
           type: Consoloid.FileList.Context.File
           pattern: path <value>
-          required: false
+          required: true
         recursively:
           type: boolean
           pattern: recursively
@@ -89,7 +89,7 @@ definitions:
         path:
           type: string
           pattern: called <value>
-          required: false
+          required: true
   folder.create.dialog:
     cls: Consoloid.FileList.Dialog.FileOperation.CreateFolder
     shared: false
