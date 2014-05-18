@@ -70,3 +70,26 @@ definitions:
   file.delete.dialog:
     cls: Consoloid.FileList.Dialog.FileOperation.Delete
     shared: false
+
+  folder.create.sentence:
+    tags: [ "sentence" ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: folder.create.dialog
+      patterns:
+        - Create folder
+        - Create new folder
+        - New folder
+        - Make directory
+        - Create folder <path>
+        - Create new folder <path>
+        - New folder <path>
+        - Make directory <path>
+      arguments:
+        path:
+          type: string
+          pattern: called <value>
+          required: false
+  folder.create.dialog:
+    cls: Consoloid.FileList.Dialog.FileOperation.CreateFolder
+    shared: false
