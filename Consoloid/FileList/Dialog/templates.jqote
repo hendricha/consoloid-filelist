@@ -14,3 +14,33 @@
 ]]>
 </script>
 
+<script id="Consoloid-FileList-Dialog-DialogActive" type="text/x-jqote-template">
+<![CDATA[
+  <div class="active normal">
+    <div class="ui active progress">
+      <div class="bar" style="width:<%= this.percentage %>%"></div>
+    </div>
+  </div>
+]]>
+</script>
+
+<script id="Consoloid-FileList-Dialog-DialogError" type="text/x-jqote-template">
+<![CDATA[
+  <div class="error">
+    <div class="message"><%= this.getMessage() %></div>
+    <div class="ui failed progress">
+      <div class="bar" style="width:<%= this.percentage %>%"></div>
+    </div>
+  </div>
+]]>
+</script>
+
+<script id="Consoloid-FileList-Dialog-DialogSuccess" type="text/x-jqote-template">
+<![CDATA[
+  <div class="success info">
+    <div class="ui successful progress">
+      <div class="bar" style="width:<%= this.percentage %>%"></div>
+    </div>
+  </div>
+]]>
+</script>

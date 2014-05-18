@@ -47,3 +47,26 @@ definitions:
   file.list.welcome.info:
     cls: Consoloid.FileList.Dialog.Welcome
     shared: true
+
+  file.delete.sentence:
+    tags: [ "sentence" ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: file.delete.dialog
+      patterns:
+        - Delete
+        - Remove
+        - Delete <path>
+        - Remove <path>
+      arguments:
+        path:
+          type: Consoloid.FileList.Context.File
+          pattern: path <value>
+          required: false
+        recursively:
+          type: boolean
+          pattern: recursively
+          required: false
+  file.delete.dialog:
+    cls: Consoloid.FileList.Dialog.FileOperation.Delete
+    shared: false
