@@ -25,22 +25,7 @@ defineClass('Consoloid.FileList.Dialog.FileOperation.Move', 'Consoloid.FileList.
       this.describe(this.source, function() {
         this.showError(this.get("translator").trans("Source did not exist."));
       }.bind(this), function() {
-        this.describe(this.target, this.doMethod.bind(this), function() {
-          if (this.arguments.overwrite && this.arguments.overwrite.value) {
-            this.doMethod();
-            return;
-          }
-
-          this.showError(
-            this.get("translator").trans("Target exists.") +
-            " " +
-            __s(this.sentenceText, {
-              "from <value>": this.source,
-              "to <value>": this.target,
-              "overwrite": true
-            }, "Overwrite", true)
-          );
-        }.bind(this));
+        this.describe(this.target, this.doMethod.bind(this), this.targetIsFile.bind(this), this.targetIsFolder.bind(this));
       }.bind(this));
     },
 
@@ -55,6 +40,27 @@ defineClass('Consoloid.FileList.Dialog.FileOperation.Move', 'Consoloid.FileList.
         }.bind(this),
         error: this.showError.bind(this)
       });
+    },
+
+    targetIsFile: function() {
+      if (this.arguments.overwrite && this.arguments.overwrite.value) {
+        this.doMethod();
+        return;
+      }
+
+      this.showError(
+        this.get("translator").trans("Target exists.") +
+        " " +
+        __s(this.sentenceText, {
+          "from <value>": this.source,
+          "to <value>": this.target,
+          "overwrite": true
+        }, "Overwrite", true)
+      );
+    },
+
+    targetIsFolder: function() {
+      this.targetIsFile();
     }
   }
 );
