@@ -5,7 +5,7 @@ defineClass('Consoloid.FileList.Dialog.FileOperation.Delete', 'Consoloid.FileLis
       this.__base();
 
       this.describe(this.arguments.path.value, function() {
-        this.showError("Path did not exist.");
+        this.showError(this.get("translator").trans("Path did not exist."));
       }.bind(this), function() {
         if (this.arguments.recursively && this.arguments.recursively.value) {
           this.showError(this.get("translator").trans("This is not a folder."));
