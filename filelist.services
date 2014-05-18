@@ -120,3 +120,28 @@ definitions:
   file.move.dialog:
     cls: Consoloid.FileList.Dialog.FileOperation.Move
     shared: false
+
+  file.copy.sentence:
+    tags: [ "sentence" ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: file.copy.dialog
+      patterns:
+        - Copy
+        - Copy <source> to <target>
+      arguments:
+        source:
+          type: Consoloid.FileList.Context.File
+          pattern: from <value>
+          required: true
+        target:
+          type: string
+          pattern: to <value>
+          required: true
+        overwrite:
+          type: boolean
+          pattern: overwrite
+          required: false
+  file.copy.dialog:
+    cls: Consoloid.FileList.Dialog.FileOperation.Copy
+    shared: false
