@@ -21,7 +21,7 @@ defineClass('Consoloid.FileList.Server.BasicOperations', 'Consoloid.Server.Servi
         return;
       }
 
-      this.sendResult(this.res, true);
+      this.sendResult(this.res, { result: true });
     },
 
     rename: function(res, oldPath, newPath, overwrite)
@@ -54,6 +54,28 @@ defineClass('Consoloid.FileList.Server.BasicOperations', 'Consoloid.Server.Servi
     {
       this.res = res;
       this.copyModule(oldPath, newPath, { clobber: overWrite ? true : false, stopOnErr: true }, this.__respond.bind(this));
-    }
+    },
+
+    describe: function(res, path)
+    {
+      if (!this.fsModule.existsSync(path)) {
+        return this.sendResult(res, { result: this.__self.DOES_NOT_EXIST });
+      }
+
+      var stat = this.fsModule.statSync(path);
+      if (stat.isFile()) {
+        return this.sendResult(res, { result: this.__self.IS_FILE });
+      }
+
+      if (stat.isDirectory()) {
+        return this.sendResult(res, { result: this.__self.IS_FOLDER });
+      }
+
+      return this.sendError(res, "PATHISNOTFILENORDIRECTORY");
+    },
+  }, {
+    IS_FILE: 0,
+    IS_FOLDER: 1,
+    DOES_NOT_EXIST: 2
   }
 );

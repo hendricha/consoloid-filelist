@@ -15,7 +15,11 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
       rename: sinon.stub().yields(null),
       rmdir: sinon.stub().yields(null),
       mkdir: sinon.stub().yields(null),
-      existsSync: sinon.stub().returns(false)
+      existsSync: sinon.stub().returns(false),
+      statSync: sinon.stub().returns({
+        isFile: sinon.stub(),
+        isDirectory: sinon.stub()
+      })
     };
 
     rimraf = sinon.stub().yields(null);
@@ -35,7 +39,7 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
       service.unlink(res, "/some/path");
 
       fs.unlink.calledWith("/some/path").should.be.ok;
-      service.sendResult.calledWith(res, true).should.be.ok;
+      service.sendResult.calledWith(res, { result: true }).should.be.ok;
     });
 
     it("should send the error if something happens", function() {
@@ -51,7 +55,7 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
       service.rename(res, "/some/path", "/some/other/path.txt");
 
       fs.rename.calledWith("/some/path", "/some/other/path.txt").should.be.ok;
-      service.sendResult.calledWith(res, true).should.be.ok;
+      service.sendResult.calledWith(res, { result: true }).should.be.ok;
     });
 
     it("should send error if file exists and overwrite is not set", function() {
@@ -86,7 +90,7 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
       service.rmdir(res, "/some/path");
 
       fs.rmdir.calledWith("/some/path").should.be.ok;
-      service.sendResult.calledWith(res, true).should.be.ok;
+      service.sendResult.calledWith(res, { result: true }).should.be.ok;
     });
 
     it("should send the error if something happens", function() {
@@ -100,7 +104,7 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
       service.rmdir(res, "/some/path", true);
 
       rimraf.calledWith("/some/path").should.be.ok;
-      service.sendResult.calledWith(res, true).should.be.ok;
+      service.sendResult.calledWith(res, { result: true }).should.be.ok;
     });
 
     it("should send the error if something happens while recursive deleting", function() {
@@ -116,7 +120,7 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
       service.mkdir(res, "/some/path");
 
       fs.mkdir.calledWith("/some/path").should.be.ok;
-      service.sendResult.calledWith(res, true).should.be.ok;
+      service.sendResult.calledWith(res, { result: true }).should.be.ok;
     });
 
     it("should send the error if something happens", function() {
@@ -132,7 +136,7 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
       service.copy(res, "/some/path", "/some/other/path");
 
       ncp.calledWith("/some/path", "/some/other/path", { clobber: false, stopOnErr: true }).should.be.ok;
-      service.sendResult.calledWith(res, true).should.be.ok;
+      service.sendResult.calledWith(res, { result: true }).should.be.ok;
     });
 
     it("should send the error if something happens", function() {
@@ -146,7 +150,47 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
       service.copy(res, "/some/path", "/some/other/path", true);
 
       ncp.calledWith("/some/path", "/some/other/path", { clobber: true, stopOnErr: true }).should.be.ok;
-      service.sendResult.calledWith(res, true).should.be.ok;
+      service.sendResult.calledWith(res, { result: true }).should.be.ok;
+    });
+  });
+
+  describe("#describe(res, path)", function() {
+    beforeEach(function() {
+      fs.existsSync.returns(true);
+    });
+    it("should return with IS_FILE if it's a file", function() {
+      fs.statSync().isFile.returns(true);
+      fs.statSync().isDirectory.returns(false);
+
+      service.describe(res, "/some/file");
+
+      fs.existsSync.calledWith("/some/file").should.be.ok;
+      fs.statSync.calledWith("/some/file").should.be.ok;
+
+      service.sendResult.calledWith(res, { result: Consoloid.FileList.Server.BasicOperations.IS_FILE }).should.be.ok;
+    });
+
+    it("should return with IS_FOLDER if it's a folder", function() {
+      fs.statSync().isFile.returns(false);
+      fs.statSync().isDirectory.returns(true);
+
+      service.describe(res, "/some/folder");
+
+      fs.existsSync.calledWith("/some/folder").should.be.ok;
+      fs.statSync.calledWith("/some/folder").should.be.ok;
+
+      service.sendResult.calledWith(res, { result: Consoloid.FileList.Server.BasicOperations.IS_FOLDER }).should.be.ok;
+    });
+
+    it("should return with DOES_NOT_EXIST if it doesn't exist", function() {
+      fs.existsSync.returns(false);
+
+      service.describe(res, "/some/thing");
+
+      fs.existsSync.calledWith("/some/thing").should.be.ok;
+      fs.statSync.calledWith("/some/thing").should.not.be.ok;
+
+      service.sendResult.calledWith(res, { result: Consoloid.FileList.Server.BasicOperations.DOES_NOT_EXIST }).should.be.ok;
     });
   });
 
