@@ -28,6 +28,10 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.CreateFolder', functio
       getParameter: sinon.stub()
     });
 
+    env.addServiceMock('file.list.path.absolutifier', {
+      absolutifyFolderDoesNotNeedToExist: sinon.spy(function(path) { return path; })
+    });
+
     remoteOperations = {
       callAsync: sinon.stub()
     };

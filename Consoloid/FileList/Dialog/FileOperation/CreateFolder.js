@@ -4,8 +4,10 @@ defineClass('Consoloid.FileList.Dialog.FileOperation.CreateFolder', 'Consoloid.F
     {
       this.__base();
 
-      this.describe(this.arguments.path.value, function() {
-        this.get("server_operations").callAsync("mkdir", [ this.arguments.path.value ], {
+      var path = this.get("file.list.path.absolutifier").absolutifyFolderDoesNotNeedToExist(this.arguments.path.value);
+
+      this.describe(path, function() {
+        this.get("server_operations").callAsync("mkdir", [ path ], {
           success: function(data) {
             this.showSuccess();
           }.bind(this),
