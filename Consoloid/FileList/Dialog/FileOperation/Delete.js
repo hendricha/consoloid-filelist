@@ -4,7 +4,7 @@ defineClass('Consoloid.FileList.Dialog.FileOperation.Delete', 'Consoloid.FileLis
     {
       this.__base();
 
-      this.describe(function() {
+      this.describe(this.arguments.path.value, function() {
         this.showError("Path did not exist.");
       }.bind(this), function() {
         if (this.arguments.recursively && this.arguments.recursively.value) {

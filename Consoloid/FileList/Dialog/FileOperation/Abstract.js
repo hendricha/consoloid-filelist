@@ -15,11 +15,11 @@ defineClass('Consoloid.FileList.Dialog.FileOperation.Abstract', 'Consoloid.Ui.Vo
       getClass("Consoloid.FileList.Server.BasicOperations");
     },
 
-    describe: function(doesNotExist, isFile, isFolder)
+    describe: function(path, doesNotExist, isFile, isFolder)
     {
       isFolder = isFolder || isFile;
 
-      this.get("server_operations").callAsync("describe", [ this.arguments.path.value ], {
+      this.get("server_operations").callAsync("describe", [ path ], {
         success: function(data) {
           switch (data.result) {
             case Consoloid.FileList.Server.BasicOperations.IS_FILE:
