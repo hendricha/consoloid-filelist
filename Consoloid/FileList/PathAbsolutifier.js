@@ -1,21 +1,18 @@
 defineClass('Consoloid.FileList.PathAbsolutifier', 'Consoloid.Base.Object',
   {
-    absolutifyFileDoesNotNeedToExist: function(file)
+    absolutify: function(path, options)
     {
-      return this.absolutifyFile(file, true);
-    },
+      options = options || { isFile: true, isFolder: true };
 
-    absolutifyFile: function(file, doesNotNeedToExist)
-    {
-      if (this.__isAbsolutePath(file)) {
-        return file;
+      if (this.__isAbsolutePath(path)) {
+        return path;
       }
 
-      if (this.__notDeepRelativePath(file) && (doesNotNeedToExist || this.__getLastFileList().hasFile(file))) {
-        return this.__getLastFileListPath() + file;
+      if (this.__notDeepRelativePath(path) && this.__checkExistence(path, options)) {
+        return this.__getLastFileListPath() + path;
       }
 
-      throw new Error(__("File is either not referenced by absolute path, or not in last shown file list view."));
+      throw new Error(__("File or folder is either not referenced by absolute path, or not in last shown file list view."));
     },
 
     __isAbsolutePath: function(path)
@@ -26,6 +23,11 @@ defineClass('Consoloid.FileList.PathAbsolutifier', 'Consoloid.Base.Object',
     __notDeepRelativePath: function(path)
     {
       return (path.indexOf("/") == -1) ? true : false;
+    },
+
+    __checkExistence: function(path, options)
+    {
+      return options.doesNotNeedToExist || (options.isFile && this.__getLastFileList().hasFile(path)) ||  (options.isFolder && this.__getLastFileList().hasFolder(path))
     },
 
     __getLastFileList: function()
@@ -45,22 +47,24 @@ defineClass('Consoloid.FileList.PathAbsolutifier', 'Consoloid.Base.Object',
       return (path[path.length - 1] == "/") ? path : path + "/";
     },
 
+    absolutifyFolder: function(folder)
+    {
+      return this.absolutify(folder, { isFolder: true });
+    },
+
+    absolutifyFile: function(file)
+    {
+      return this.absolutify(file, { isFile: true });
+    },
+
     absolutifyFolderDoesNotNeedToExist: function(folder)
     {
-      return this.absolutifyFolder(folder, true);
+      return this.absolutify(folder, { doesNotNeedToExist: true, isFolder: true });
     },
 
-    absolutifyFolder: function(folder, doesNotNeedToExist)
+    absolutifyFileDoesNotNeedToExist: function(file)
     {
-      if (this.__isAbsolutePath(folder)) {
-        return folder;
-      }
-
-      if (this.__notDeepRelativePath(folder) && (doesNotNeedToExist || this.__getLastFileList().hasFolder(folder))) {
-        return this.__getLastFileListPath() + folder;
-      }
-
-      throw new Error(__("Folder is either not referenced by absolute path, or not in last shown file list view."));
-    },
+      return this.absolutify(file, { doesNotNeedToExist: true, isFile: true });
+    }
   }
 );
