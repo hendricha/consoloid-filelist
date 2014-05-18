@@ -62,8 +62,8 @@ defineClass('Consoloid.FileList.Server.BasicOperations', 'Consoloid.Server.Servi
         return this.sendResult(res, { result: this.__self.DOES_NOT_EXIST });
       }
 
-      var stat = this.fsModule.statSync(path);
-      if (stat.isFile()) {
+      var stat = this.fsModule.lstatSync(path);
+      if (stat.isFile() || stat.isSymbolicLink()) {
         return this.sendResult(res, { result: this.__self.IS_FILE });
       }
 

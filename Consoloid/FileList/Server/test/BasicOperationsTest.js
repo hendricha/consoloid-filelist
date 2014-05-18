@@ -16,8 +16,9 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
       rmdir: sinon.stub().yields(null),
       mkdir: sinon.stub().yields(null),
       existsSync: sinon.stub().returns(false),
-      statSync: sinon.stub().returns({
+      lstatSync: sinon.stub().returns({
         isFile: sinon.stub(),
+        isSymbolicLink: sinon.stub(),
         isDirectory: sinon.stub()
       })
     };
@@ -159,25 +160,25 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
       fs.existsSync.returns(true);
     });
     it("should return with IS_FILE if it's a file", function() {
-      fs.statSync().isFile.returns(true);
-      fs.statSync().isDirectory.returns(false);
+      fs.lstatSync().isFile.returns(true);
+      fs.lstatSync().isDirectory.returns(false);
 
       service.describe(res, "/some/file");
 
       fs.existsSync.calledWith("/some/file").should.be.ok;
-      fs.statSync.calledWith("/some/file").should.be.ok;
+      fs.lstatSync.calledWith("/some/file").should.be.ok;
 
       service.sendResult.calledWith(res, { result: Consoloid.FileList.Server.BasicOperations.IS_FILE }).should.be.ok;
     });
 
     it("should return with IS_FOLDER if it's a folder", function() {
-      fs.statSync().isFile.returns(false);
-      fs.statSync().isDirectory.returns(true);
+      fs.lstatSync().isFile.returns(false);
+      fs.lstatSync().isDirectory.returns(true);
 
       service.describe(res, "/some/folder");
 
       fs.existsSync.calledWith("/some/folder").should.be.ok;
-      fs.statSync.calledWith("/some/folder").should.be.ok;
+      fs.lstatSync.calledWith("/some/folder").should.be.ok;
 
       service.sendResult.calledWith(res, { result: Consoloid.FileList.Server.BasicOperations.IS_FOLDER }).should.be.ok;
     });
@@ -188,7 +189,7 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
       service.describe(res, "/some/thing");
 
       fs.existsSync.calledWith("/some/thing").should.be.ok;
-      fs.statSync.calledWith("/some/thing").should.not.be.ok;
+      fs.lstatSync.calledWith("/some/thing").should.not.be.ok;
 
       service.sendResult.calledWith(res, { result: Consoloid.FileList.Server.BasicOperations.DOES_NOT_EXIST }).should.be.ok;
     });
