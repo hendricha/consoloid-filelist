@@ -35,8 +35,8 @@ defineClass('Consoloid.FileList.Dialog.FileOperation.Move', 'Consoloid.FileList.
             this.get("translator").trans("Target exists.") +
             " " +
             __s(this.sentenceText, {
-              "source <value>": this.source,
-              "target <value>": this.target,
+              "from <value>": this.source,
+              "to <value>": this.target,
               "overwrite": true
             }, "Overwrite", true)
           );
