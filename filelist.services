@@ -93,3 +93,61 @@ definitions:
   folder.create.dialog:
     cls: Consoloid.FileList.Dialog.FileOperation.CreateFolder
     shared: false
+
+  file.move.sentence:
+    tags: [ "sentence" ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: file.move.dialog
+      patterns:
+        - Move
+        - Rename
+        - Move <source> to <target>
+        - Rename <source> to <target>
+      arguments:
+        source:
+          type: string
+          pattern: from <value>
+          required: true
+        target:
+          type: string
+          pattern: to <value>
+          required: true
+        overwrite:
+          type: boolean
+          pattern: overwrite
+          required: false
+  file.move.dialog:
+    cls: Consoloid.FileList.Dialog.FileOperation.CopyOrMove
+    shared: false
+    options:
+      remoteMethod: "rename"
+      sentenceText: "Move"
+
+  file.copy.sentence:
+    tags: [ "sentence" ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: file.copy.dialog
+      patterns:
+        - Copy
+        - Copy <source> to <target>
+      arguments:
+        source:
+          type: string
+          pattern: from <value>
+          required: true
+        target:
+          type: string
+          pattern: to <value>
+          required: true
+        overwrite:
+          type: boolean
+          pattern: overwrite
+          required: false
+  file.copy.dialog:
+    cls: Consoloid.FileList.Dialog.FileOperation.CopyOrMove
+    shared: false
+    options:
+      remoteMethod: "copy"
+      sentenceText: "Copy"
