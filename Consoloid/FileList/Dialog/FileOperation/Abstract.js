@@ -41,6 +41,9 @@ defineClass('Consoloid.FileList.Dialog.FileOperation.Abstract', 'Consoloid.Ui.Vo
 
     showActive: function(percentage)
     {
+      if (this.activeState == "success") {
+        return;
+      }
       this.activeState = "active";
       this.percentage = percentage;
       this.render();
