@@ -30,6 +30,17 @@ defineClass('Consoloid.FileList.Dialog.FileList', 'Consoloid.Ui.List.Dialog.Dial
     hasFolder: function(folder)
     {
       return this.list.hasFolder(folder);
+    },
+
+    watcherEventHappened: function(event, filename)
+    {
+      this.list.render();
+    },
+
+    render: function()
+    {
+      this.__base();
+      this.get("client_file_watcher_container").watch(this, this.path, this.name);
     }
   }
 );

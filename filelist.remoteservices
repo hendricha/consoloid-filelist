@@ -28,3 +28,9 @@ definitions:
       defaults:
         responseMode: responsePassing
 
+  server_file_watcher_container:
+    cls: Consoloid.FileList.Server.WatcherContainer
+    shared: false
+    remoting:
+      defaults:
+        responseMode: responsePassing

@@ -19,6 +19,12 @@ defineClass('Consoloid.FileList.ListWidget', 'Consoloid.Ui.List.Widget',
     hasFolder: function(folder)
     {
       return this.dataSource.hasFolder(folder);
+    },
+
+    render: function()
+    {
+      this.dataSource.clearData();
+      this.__base();
     }
   }
 );

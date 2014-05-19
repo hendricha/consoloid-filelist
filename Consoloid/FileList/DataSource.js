@@ -99,6 +99,11 @@ defineClass('Consoloid.FileList.DataSource', 'Consoloid.Ui.List.DataSource.Array
       return this.data.some(function(item) {
         return (item.name == folder) && !item.isFile;
       });
+    },
+
+    clearData: function()
+    {
+      this.dataReady = false;
     }
   }
 );

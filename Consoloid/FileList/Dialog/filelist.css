@@ -9,3 +9,7 @@ iframe.file.show {
 	background-color: white;
 	display: block;
 }
+
+.list-wrapper {
+	min-height: 400px;
+}

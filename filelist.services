@@ -21,7 +21,7 @@ definitions:
     options:
       name: Browsed folder
       list: '@file.list'
-      defaultFolder: "/"
+      defaultFolder: "/tmp/sb"
       responseTemplateId: Consoloid-FileList-Dialog-List
 
   file.list:
@@ -209,3 +209,6 @@ definitions:
     cls: Consoloid.FileList.Dialog.ShowFile
     shared: false
 
+  client_file_watcher_container:
+    cls: Consoloid.FileList.WatcherContainer
+    shared: true
