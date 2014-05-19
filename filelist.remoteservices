@@ -12,3 +12,11 @@ definitions:
     remoting:
       defaults:
         responseMode: responsePassing
+
+  upload.file.processor:
+    cls: Consoloid.FileList.Server.UploadFile
+    remoting:
+      mode: any
+      methods:
+        process:
+          responseMode: responsePassing

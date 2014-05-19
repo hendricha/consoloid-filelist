@@ -145,3 +145,47 @@ definitions:
   file.copy.dialog:
     cls: Consoloid.FileList.Dialog.FileOperation.Copy
     shared: false
+
+  upload.file.sentence:
+    tags: [ "sentence" ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: upload.file.dialog
+      patterns:
+        - Upload files
+        - Upload files to <folder>
+      arguments:
+        folder:
+          type: Consoloid.FileList.Context.Folder
+          pattern: to <value>
+          required: true
+
+  upload.file.dialog:
+    cls: Consoloid.FileList.Dialog.UploadForm
+    shared: false
+    options:
+      name: Upload files
+      submitButtonText: Upload
+      formService: upload.file.form
+      processor:
+        service: upload.file.processor
+
+  upload.file.form:
+    cls: Consoloid.Form.Form
+    shared: false
+    options:
+      name: uploadFile
+      fieldDefinitions:
+        files:
+          cls: Consoloid.Form.File
+          options:
+            title: files
+        path:
+          cls: Consoloid.Form.Text
+          options:
+            title: Path
+            enabled: false
+
+  file.upload_download_status_container:
+    cls: Consoloid.FileList.UploadDownloadStatusContainer
+    shared: true

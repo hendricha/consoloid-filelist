@@ -44,3 +44,16 @@
   </div>
 ]]>
 </script>
+
+<script id="Consoloid-FileList-FakeExpression" type="text/x-jqote-template">
+<![CDATA[
+  <div class="prompt">$</div>
+  <div class="expression"><%= this.text %></div>
+  <div class="actions">
+    <ul>
+      <li><a class="remove" href="#"><img src="/Consoloid/Ui/images/trash.png" alt="remove" /></a></li>
+    </ul>
+  </div>
+  <div class="clear-both"></div>
+]]>
+</script>
