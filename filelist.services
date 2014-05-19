@@ -189,3 +189,23 @@ definitions:
   file.upload_download_status_container:
     cls: Consoloid.FileList.UploadDownloadStatusContainer
     shared: true
+
+  file.show.sentence:
+    tags: [ "sentence" ]
+    cls: Consoloid.Interpreter.Sentence
+    options:
+      service: file.show.dialog
+      patterns:
+        - Display
+        - Open
+        - Display file <path>
+        - Open file <path>
+      arguments:
+        path:
+          type: Consoloid.FileList.Context.File
+          pattern: file <value>
+          required: true
+  file.show.dialog:
+    cls: Consoloid.FileList.Dialog.ShowFile
+    shared: false
+

@@ -1,3 +1,11 @@
 .collapse-content .file-list-item.collapsed {
 	height: 40px;
 }
+
+iframe.file.show {
+	margin: 0 auto;
+	width: 70%;
+	height: 400px;
+	background-color: white;
+	display: block;
+}

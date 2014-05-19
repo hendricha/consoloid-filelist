@@ -20,3 +20,11 @@ definitions:
       methods:
         process:
           responseMode: responsePassing
+
+  download.file.getter:
+    cls: Consoloid.FileList.Server.FileGetter
+    shared: false
+    remoting:
+      defaults:
+        responseMode: responsePassing
+

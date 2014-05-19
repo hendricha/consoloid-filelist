@@ -38,3 +38,10 @@
   </div>
 ]]>
 </script>
+
+
+<script id="Consoloid-FileList-Dialog-ShowFile" type="text/x-jqote-template">
+<![CDATA[
+  <iframe src="" class="show file"></iframe>
+]]>
+</script>
