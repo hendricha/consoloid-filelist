@@ -212,3 +212,7 @@ definitions:
   client_file_watcher_container:
     cls: Consoloid.FileList.WatcherContainer
     shared: true
+
+  filelist.dropzone_controller:
+    cls: Consoloid.FileList.DropzoneController
+    shared: true

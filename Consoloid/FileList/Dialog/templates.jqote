@@ -1,16 +1,23 @@
 <script id="Consoloid-FileList-Dialog-List" type="text/x-jqote-template">
 <![CDATA[
-  <div class="ui breadcrumb">
-    <% this.path.split("/").forEach(function(section, index) { %>
-      <% if (index < this.path.split("/").length - 1) { %>
-        <div class="section"><%= section || "/" %></div>
-        <i class="right arrow icon divider"></i>
-      <% } else { %>
-        <div class="active section"><%= section %></div>
-      <% }; %>
-    <% }.bind(this)); %>
+  <div class="ui filelist raised segment">
+    <div class="ui breadcrumb">
+      <% this.path.split("/").forEach(function(section, index) { %>
+        <% if (index < this.path.split("/").length - 1) { %>
+          <div class="section"><%= section || "/" %></div>
+          <i class="right arrow icon divider"></i>
+        <% } else { %>
+          <div class="active section"><%= section %></div>
+        <% }; %>
+      <% }.bind(this)); %>
+    </div>
+    <div class="float right toolbar">
+      <%= __s("Upload files", { "to <value>": this.path }, null, true) %>
+      <%= __s("New folder", {}, null, true) %>
+      <span class="drop zone" style="display:none;" data-path="<%= this.path %>"><%= __("Here") %></span>
+    </div>
+    <%= this.create("Consoloid.Widget.JQoteTemplate", { id: 'Consoloid-Ui-List-Dialog', container: this.container }).get().jqote(this) %>
   </div>
-  <%= this.create("Consoloid.Widget.JQoteTemplate", { id: 'Consoloid-Ui-List-Dialog', container: this.container }).get().jqote(this) %>
 ]]>
 </script>
 

@@ -12,6 +12,9 @@
     <i class="<%= this.data.isFile ? "file" : "folder" %> icon"></i>
     <%= this.data.name %>
   </h4>
+  <% if (!this.data.isFile) { %>
+    <span class="drop zone" style="display:none;" data-path="<%= this.data.fullPath %>"><%= __("Here") %></span>
+  <% }; %>
 ]]>
 </script>
 
@@ -32,8 +35,14 @@
     </div>
     <div cass="toolbox">
       <% if (!this.data.isFile) { %>
-        <%= __s("Show file view", { "of folder <value>": this.data.name }, "Show", true) %>
-      <% }; %>
+        <%= __s("Show file view", { "of folder <value>": this.data.fullPath }, "Show", true) %>
+      <% } else { %>
+        <%= __s("Display", { "file <value>": this.data.fullPath }, "Display", true) %>
+      <%}; %>
+        <span class="dropper"><%= __s("Copy", { "from <value>": this.data.fullPath }, "Copy") %>
+        <%= __s("Move", { "from <value>": this.data.fullPath }, "Move") %></span>
+        <%= __s("Move", { "from <value>": this.data.fullPath }, "Rename", true) %>
+        <%= __s("Delete", { "path <value>": this.data.fullPath }, "Delete", true) %>
     </div>
   </div>
 ]]>

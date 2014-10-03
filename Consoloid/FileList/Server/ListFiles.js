@@ -42,7 +42,8 @@ defineClass('Consoloid.FileList.Server.ListFiles', 'Consoloid.Server.Service',
           name: this.pathModule.basename(path),
           isFile: stats.isFile(),
           size: stats.size,
-          mtime: stats.mtime.getTime()
+          mtime: stats.mtime.getTime(),
+          fullPath: path
         });
         callback();
       }.bind(this));

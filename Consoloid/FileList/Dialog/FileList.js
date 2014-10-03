@@ -8,6 +8,7 @@ defineClass('Consoloid.FileList.Dialog.FileList', 'Consoloid.Ui.List.Dialog.Dial
       this.requireProperty('defaultFolder');
 
       this.get('css_loader').load("Consoloid-FileList-Dialog-filelist");
+      this.get('css_loader').load("Consoloid-FileList-Dialog-vanda");
     },
 
     handleArguments: function(args, expression)
@@ -41,6 +42,7 @@ defineClass('Consoloid.FileList.Dialog.FileList', 'Consoloid.Ui.List.Dialog.Dial
     {
       this.__base();
       this.get("client_file_watcher_container").watch(this, this.path, this.name);
+      this.get("filelist.dropzone_controller").register(this.node);
     }
   }
 );
