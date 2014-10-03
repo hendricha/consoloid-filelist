@@ -1,8 +1,8 @@
 defineClass('Consoloid.FileList.Dialog.FileOperation.Delete', 'Consoloid.FileList.Dialog.FileOperation.Abstract',
   {
-    setup: function()
+    handleArguments: function(args, expression)
     {
-      this.__base();
+      this.__base(args, expression);
 
       this.describe(this.arguments.path.value, function() {
         this.showError(this.get("translator").trans("Path did not exist."));

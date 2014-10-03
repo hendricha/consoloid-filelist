@@ -10,9 +10,9 @@ defineClass('Consoloid.FileList.Dialog.FileOperation.Move', 'Consoloid.FileList.
       getClass("Consoloid.FileList.Server.BasicOperations");
     },
 
-    setup: function()
+    handleArguments: function(args, expression)
     {
-      this.__base();
+      this.__base(args, expression);
 
       this.source = this.get("file.list.path.absolutifier").absolutifyFile(this.arguments.source.value);
       this.target = this.get("file.list.path.absolutifier").absolutifyFileDoesNotNeedToExist(this.arguments.target.value);

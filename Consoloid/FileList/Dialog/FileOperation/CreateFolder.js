@@ -1,8 +1,8 @@
 defineClass('Consoloid.FileList.Dialog.FileOperation.CreateFolder', 'Consoloid.FileList.Dialog.FileOperation.Abstract',
   {
-    setup: function()
+    handleArguments: function(args, expression)
     {
-      this.__base();
+      this.__base(args, expression);
 
       var path = this.get("file.list.path.absolutifier").absolutifyFolderDoesNotNeedToExist(this.arguments.path.value);
 
