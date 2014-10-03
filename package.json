@@ -1,0 +1,35 @@
+{
+  "name": "consoloid-filelist",
+  "version": "0.0.1",
+  "dependencies": {
+  },
+  "description": "File operations module for Consoloid",
+  "homepage": "https://github.com/hendricha/consoloid-filelist",
+  "license": "MIT",
+  "author": {
+    "name": "dev.agmen.hu Ltd.",
+    "email": "support@agmen.hu",
+    "url": "https://agmen.hu"
+  },
+  "contributors": [
+    {
+      "name": "Szilard Novaki",
+      "email": "novaki@agmen.hu"
+    },
+    {
+      "name": "Attila Hendrich",
+      "email": "hendricha@agmen.hu"
+    },
+    {
+      "name": "Gabor Kiss",
+      "email": "nevi@agmen.hu"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/hendricha/consoloid-filelist/issues"
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "git://github.com/hendricha/consoloid-filelist"
+  }
+}
