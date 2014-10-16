@@ -21,7 +21,7 @@ definitions:
     options:
       name: Browsed folder
       list: '@file.list'
-      defaultFolder: "/tmp/sb"
+      defaultFolder: "%file.list.defaultFolder%"
       responseTemplateId: Consoloid-FileList-Dialog-List
 
   file.list:
