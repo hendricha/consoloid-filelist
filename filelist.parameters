@@ -1,3 +1,5 @@
 file:
   list:
     defaultFolder: "/tmp"
+  accessAuthorizer:
+    class: "Consoloid.FileList.Server.MockAccessAuthorizer"
