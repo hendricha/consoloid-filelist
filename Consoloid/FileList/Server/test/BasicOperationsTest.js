@@ -1,4 +1,5 @@
 require('consoloid-server/Consoloid/Server/Service');
+require('../MockAccessAuthorizer.js');
 require('../BasicOperations.js');
 require('consoloid-framework/Consoloid/Test/UnitTest');
 describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
@@ -7,6 +8,7 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
     fs,
     rimraf,
     ncp,
+    authorizer,
     res;
 
   beforeEach(function() {
@@ -29,6 +31,15 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
 
     res = {};
 
+    authorizer = {
+      authorize: sinon.stub(),
+      __self: {
+        OPERATION_READ: 0,
+        OPERATION_WRITE: 1
+      }
+    }
+    env.addServiceMock("file.access.authorizer", authorizer);
+
     service = env.create(Consoloid.FileList.Server.BasicOperations, { fsModule: fs, rimrafModule: rimraf, copyModule: ncp });
 
     service.sendResult = sinon.stub();
@@ -48,6 +59,14 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
       service.unlink(res, "/some/path");
 
       service.sendError.calledWith(res, "This is an error message").should.be.ok;
+    });
+
+    it("should send error if it isn't authorized", function() {
+      authorizer.authorize.throws();
+      service.unlink(res, "/some/path");
+
+      authorizer.authorize.calledWith(Consoloid.FileList.Server.MockAccessAuthorizer.OPERATION_WRITE).should.be.ok;
+      service.sendError.calledWith(res).should.be.ok;
     });
   });
 
@@ -84,6 +103,15 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
 
       service.sendError.calledWith(res, "This is an error message").should.be.ok;
     });
+
+    it("should send error if it isn't authorized", function() {
+      authorizer.authorize.withArgs(Consoloid.FileList.Server.MockAccessAuthorizer.OPERATION_WRITE, "/some/other/path").throws();
+      service.rename(res, "/some/path", "/some/other/path");
+
+      authorizer.authorize.calledWith(Consoloid.FileList.Server.MockAccessAuthorizer.OPERATION_WRITE, "/some/path").should.be.ok;
+      authorizer.authorize.calledWith(Consoloid.FileList.Server.MockAccessAuthorizer.OPERATION_WRITE, "/some/other/path").should.be.ok;
+      service.sendError.calledWith(res).should.be.ok;
+    });
   });
 
   describe("#rmdir(res, path, recursive)", function() {
@@ -114,6 +142,14 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
 
       service.sendError.calledWith(res, "This is an error message").should.be.ok;
     });
+
+    it("should send error if it isn't authorized", function() {
+      authorizer.authorize.throws();
+      service.rmdir(res, "/some/path");
+
+      authorizer.authorize.calledWith(Consoloid.FileList.Server.MockAccessAuthorizer.OPERATION_WRITE).should.be.ok;
+      service.sendError.calledWith(res).should.be.ok;
+    });
   });
 
   describe("#mkdir(res, path)", function() {
@@ -129,6 +165,14 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
       service.mkdir(res, "/some/path");
 
       service.sendError.calledWith(res, "This is an error message").should.be.ok;
+    });
+
+    it("should send error if it isn't authorized", function() {
+      authorizer.authorize.throws();
+      service.mkdir(res, "/some/path");
+
+      authorizer.authorize.calledWith(Consoloid.FileList.Server.MockAccessAuthorizer.OPERATION_WRITE).should.be.ok;
+      service.sendError.calledWith(res).should.be.ok;
     });
   });
 
@@ -152,6 +196,15 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
 
       ncp.calledWith("/some/path", "/some/other/path", { clobber: true, stopOnErr: true }).should.be.ok;
       service.sendResult.calledWith(res, { result: true }).should.be.ok;
+    });
+
+    it("should send error if it isn't authorized", function() {
+      authorizer.authorize.withArgs(Consoloid.FileList.Server.MockAccessAuthorizer.OPERATION_WRITE, "/some/other/path").throws();
+      service.copy(res, "/some/path", "/some/other/path");
+
+      authorizer.authorize.calledWith(Consoloid.FileList.Server.MockAccessAuthorizer.OPERATION_READ, "/some/path").should.be.ok;
+      authorizer.authorize.calledWith(Consoloid.FileList.Server.MockAccessAuthorizer.OPERATION_WRITE, "/some/other/path").should.be.ok;
+      service.sendError.calledWith(res).should.be.ok;
     });
   });
 
@@ -192,6 +245,14 @@ describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
       fs.lstatSync.calledWith("/some/thing").should.not.be.ok;
 
       service.sendResult.calledWith(res, { result: Consoloid.FileList.Server.BasicOperations.DOES_NOT_EXIST }).should.be.ok;
+    });
+
+    it("should send error if it isn't authorized", function() {
+      authorizer.authorize.throws();
+      service.describe(res, "/some/path");
+
+      authorizer.authorize.calledWith(Consoloid.FileList.Server.MockAccessAuthorizer.OPERATION_READ).should.be.ok;
+      service.sendError.calledWith(res).should.be.ok;
     });
   });
 
