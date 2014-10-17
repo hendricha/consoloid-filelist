@@ -10,7 +10,7 @@ defineClass('Consoloid.FileList.Server.AuthorizingService', 'Consoloid.Server.Se
     _authorize: function(operation, path)
     {
       try {
-        this.authorizer.authorize(operation, path);
+        this.authorizer.authorize(operation, path, this.res.socket);
         return true;
       } catch (err) {
         this._respond(err);

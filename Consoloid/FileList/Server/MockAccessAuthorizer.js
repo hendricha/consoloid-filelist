@@ -1,6 +1,6 @@
 defineClass('Consoloid.FileList.Server.MockAccessAuthorizer', 'Consoloid.Server.Service',
   {
-    authorize: function(operation, path)
+    authorize: function(operation, path, socket)
     {
     }
   },
