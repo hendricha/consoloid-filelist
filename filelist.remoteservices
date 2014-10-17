@@ -34,3 +34,7 @@ definitions:
     remoting:
       defaults:
         responseMode: responsePassing
+
+  file.access.authorizer:
+    cls: "%file.accessAuthorizer.cls%"
+    shared: true

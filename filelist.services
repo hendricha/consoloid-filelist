@@ -216,7 +216,3 @@ definitions:
   filelist.dropzone_controller:
     cls: Consoloid.FileList.DropzoneController
     shared: true
-
-  file.access.authorizer:
-    cls: %file.accessAuthorizer.cls%
-    shared: true
