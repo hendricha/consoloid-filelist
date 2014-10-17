@@ -1,4 +1,4 @@
-defineClass('Consoloid.FileList.Server.ListFiles', 'Consoloid.Server.Service',
+defineClass('Consoloid.FileList.Server.ListFiles', 'Consoloid.FileList.Server.AuthorizingService',
   {
     __constructor: function(options)
     {
@@ -11,16 +11,18 @@ defineClass('Consoloid.FileList.Server.ListFiles', 'Consoloid.Server.Service',
 
     listFiles: function(res, path)
     {
+      this.res = res;
+      this._authorize(this.authorizer.__self.OPERATION_READ, path);
+
       this.fsModule.readdir(path, function(err, files) {
         if (err) {
           this.sendError(res, err);
           return;
         }
 
-        this.res = res;
         this.queue = this.get("async_function_queue");
 
-        this.queue.setDrain(this.__respond.bind(this));
+        this.queue.setDrain(this._respond.bind(this));
 
         files.forEach(function(filename) {
           this.queue.add(undefined, this.__getFileStats.bind(this), path + "/" + filename);
@@ -49,9 +51,9 @@ defineClass('Consoloid.FileList.Server.ListFiles', 'Consoloid.Server.Service',
       }.bind(this));
     },
 
-    __respond: function()
+    _respond: function(err)
     {
-      this.sendResult(this.res, this.result);
+      this.__base(err, this.result);
     }
   }
 );

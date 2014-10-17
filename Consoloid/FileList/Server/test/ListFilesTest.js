@@ -1,4 +1,6 @@
 require('consoloid-server/Consoloid/Server/Service');
+require('../MockAccessAuthorizer.js');
+require('../AuthorizingService.js');
 require('../ListFiles.js');
 require('consoloid-framework/Consoloid/Test/UnitTest');
 describeUnitTest('Consoloid.FileList.Server.ListFiles', function() {
@@ -24,21 +26,32 @@ describeUnitTest('Consoloid.FileList.Server.ListFiles', function() {
 
       res = {};
 
+      authorizer = {
+        authorize: sinon.stub(),
+        __self: {
+          OPERATION_READ: 0,
+          OPERATION_WRITE: 1
+        }
+      }
+      env.addServiceMock("file.access.authorizer", authorizer);
+
       service = env.create(Consoloid.FileList.Server.ListFiles, { fsModule: fs });
 
       service.sendResult = sinon.stub();
       service.sendError = sinon.stub();
-
-      service.listFiles(res, "/some/path");
     });
 
     it("should read the directory and then add one function to an async queue for each", function() {
+      service.listFiles(res, "/some/path");
+
       fs.readdir.calledOnce.should.be.ok;
       asyncQueue.add.calledThrice.should.be.ok;
       asyncQueue.setDrain.calledOnce.should.be.ok;
     });
 
     it("should add such functions to the queue, that they read basic stats, and then callback with them", function() {
+      service.listFiles(res, "/some/path");
+
       asyncQueue.add.args.forEach(function(arg) {
         arg[1](sinon.stub(), arg[2]);
       });
@@ -89,6 +102,8 @@ describeUnitTest('Consoloid.FileList.Server.ListFiles', function() {
     });
 
     it("should kill the queue on an error and callback with the error", function() {
+      service.listFiles(res, "/some/path");
+
       asyncQueue.add.args[0][1](sinon.stub(), asyncQueue.add.args[0][2]);
       fs.stat.args[0][1]("something terrible");
 
@@ -97,6 +112,14 @@ describeUnitTest('Consoloid.FileList.Server.ListFiles', function() {
       service.sendError.args[0][1].should.equal("something terrible");
 
       asyncQueue.killQueue.calledOnce.should.be.ok;
+    });
+
+    it("should authorize operation", function() {
+      authorizer.authorize.throws();
+      service.listFiles(res, "/some/path");
+
+      authorizer.authorize.calledWith(Consoloid.FileList.Server.MockAccessAuthorizer.OPERATION_READ, "/some/path").should.be.ok;
+      service.sendError.calledOnce.should.be.ok;
     });
   });
 });
