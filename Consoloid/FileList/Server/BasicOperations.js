@@ -1,4 +1,4 @@
-defineClass('Consoloid.FileList.Server.BasicOperations', 'Consoloid.Server.Service',
+defineClass('Consoloid.FileList.Server.BasicOperations', 'Consoloid.FileList.Server.AuthorizingService',
   {
     __constructor: function(options)
     {
@@ -7,33 +7,17 @@ defineClass('Consoloid.FileList.Server.BasicOperations', 'Consoloid.Server.Servi
         rimrafModule: require("rimraf"),
         copyModule: require("ncp")
       }, options));
-
-      this.authorizer = this.get("file.access.authorizer");
     },
 
     unlink: function(res, path)
     {
       this.res = res;
       this._authorize(this.authorizer.__self.OPERATION_WRITE, path);
-      this.fsModule.unlink(path, this.__respond.bind(this));
+      this.fsModule.unlink(path, this._respond.bind(this));
     },
 
-    _authorize: function(operation, path)
-    {
-      try {
-        this.authorizer.authorize(operation, path);
-      } catch (err) {
-        this.__respond(err);
-      }
-    },
-
-    __respond: function(err) {
-      if (err) {
-        this.sendError(this.res, err);
-        return;
-      }
-
-      this.sendResult(this.res, { result: true });
+    _respond: function(err) {
+      this.__base(err, { result: true });
     },
 
     rename: function(res, oldPath, newPath, overwrite)
@@ -45,7 +29,7 @@ defineClass('Consoloid.FileList.Server.BasicOperations', 'Consoloid.Server.Servi
         this.sendError(this.res, "FILEEXISTS");
         return;
       }
-      this.fsModule.rename(oldPath, newPath, this.__respond.bind(this));
+      this.fsModule.rename(oldPath, newPath, this._respond.bind(this));
     },
 
     rmdir: function(res, path, recursive)
@@ -54,9 +38,9 @@ defineClass('Consoloid.FileList.Server.BasicOperations', 'Consoloid.Server.Servi
       this._authorize(this.authorizer.__self.OPERATION_WRITE, path);
 
       if (recursive) {
-        this.rimrafModule(path, this.__respond.bind(this));
+        this.rimrafModule(path, this._respond.bind(this));
       } else {
-        this.fsModule.rmdir(path, this.__respond.bind(this));
+        this.fsModule.rmdir(path, this._respond.bind(this));
       };
     },
 
@@ -64,7 +48,7 @@ defineClass('Consoloid.FileList.Server.BasicOperations', 'Consoloid.Server.Servi
     {
       this.res = res;
       this._authorize(this.authorizer.__self.OPERATION_WRITE, path);
-      this.fsModule.mkdir(path, this.__respond.bind(this));
+      this.fsModule.mkdir(path, this._respond.bind(this));
     },
 
     copy: function(res, oldPath, newPath, overWrite)
@@ -72,7 +56,7 @@ defineClass('Consoloid.FileList.Server.BasicOperations', 'Consoloid.Server.Servi
       this.res = res;
       this._authorize(this.authorizer.__self.OPERATION_READ, oldPath);
       this._authorize(this.authorizer.__self.OPERATION_WRITE, newPath);
-      this.copyModule(oldPath, newPath, { clobber: overWrite ? true : false, stopOnErr: true }, this.__respond.bind(this));
+      this.copyModule(oldPath, newPath, { clobber: overWrite ? true : false, stopOnErr: true }, this._respond.bind(this));
     },
 
     describe: function(res, path)

@@ -1,5 +1,6 @@
 require('consoloid-server/Consoloid/Server/Service');
 require('../MockAccessAuthorizer.js');
+require('../AuthorizingService.js');
 require('../BasicOperations.js');
 require('consoloid-framework/Consoloid/Test/UnitTest');
 describeUnitTest('Consoloid.FileList.Server.BasicOperations', function() {
