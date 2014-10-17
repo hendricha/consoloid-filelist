@@ -10,7 +10,10 @@ defineClass('Consoloid.FileList.Server.FileGetter', 'Consoloid.FileList.Server.A
     getFile: function(res, path)
     {
       this.res = res;
-      this._authorize(this.authorizer.__self.OPERATION_READ, path);
+      if (!this._authorize(this.authorizer.__self.OPERATION_READ, path)) {
+        return;
+      }
+
       try {
         this.sendResult(res, { result: new this.dataUriModule(path).content });
       } catch (err) {

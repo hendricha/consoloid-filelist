@@ -12,7 +12,7 @@ defineClass('Consoloid.FileList.Server.ListFiles', 'Consoloid.FileList.Server.Au
     listFiles: function(res, path)
     {
       this.res = res;
-      this._authorize(this.authorizer.__self.OPERATION_READ, path);
+      if (!this._authorize(this.authorizer.__self.OPERATION_READ, path)) return;
 
       this.fsModule.readdir(path, function(err, files) {
         if (err) {

@@ -11,8 +11,10 @@ defineClass('Consoloid.FileList.Server.AuthorizingService', 'Consoloid.Server.Se
     {
       try {
         this.authorizer.authorize(operation, path);
+        return true;
       } catch (err) {
         this._respond(err);
+        return false;
       }
     },
 
