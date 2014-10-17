@@ -1,4 +1,4 @@
-defineClass('Consoloid.FileList.Server.UploadFile', 'Consoloid.Server.Service',
+defineClass('Consoloid.FileList.Server.UploadFile', 'Consoloid.FileList.Server.AuthorizingService',
   {
     __constructor: function(options)
     {
@@ -12,6 +12,7 @@ defineClass('Consoloid.FileList.Server.UploadFile', 'Consoloid.Server.Service',
     process: function(res, values)
     {
       this.path = values.path + "/";
+      if (!this._authorize(this.authorizer.__self.OPERATION_WRITE, this.path)) return;
 
       this.sendResult(res, {
         result: 'ok',
