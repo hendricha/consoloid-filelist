@@ -41,6 +41,7 @@ defineClass('Consoloid.FileList.Server.WatcherContainer', 'Consoloid.Server.Serv
     close: function(res, id)
     {
       try {
+        this.watchers[id].close();
         delete this.watchers[id];
         this.sendResult(res, { result: true });
       } catch (err) {

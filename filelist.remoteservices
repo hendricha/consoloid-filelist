@@ -30,7 +30,7 @@ definitions:
 
   server_file_watcher_container:
     cls: Consoloid.FileList.Server.WatcherContainer
-    shared: false
+    shared: true
     remoting:
       defaults:
         responseMode: responsePassing

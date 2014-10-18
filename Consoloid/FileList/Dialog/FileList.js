@@ -9,6 +9,13 @@ defineClass('Consoloid.FileList.Dialog.FileList', 'Consoloid.Ui.List.Dialog.Dial
 
       this.get('css_loader').load("Consoloid-FileList-Dialog-filelist");
       this.get('css_loader').load("Consoloid-FileList-Dialog-vanda");
+      this.list.getEventDispatcher().bind("error", this.__closeWatcher.bind(this));
+    },
+
+    __closeWatcher: function()
+    {
+      this.get("client_file_watcher_container").close(this.name);
+
     },
 
     handleArguments: function(args, expression)
