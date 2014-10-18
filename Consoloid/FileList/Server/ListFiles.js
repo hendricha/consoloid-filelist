@@ -20,6 +20,10 @@ defineClass('Consoloid.FileList.Server.ListFiles', 'Consoloid.FileList.Server.Au
           return;
         }
 
+        if (files.length == 0) {
+          return this._respond();
+        }
+
         this.queue = this.get("async_function_queue");
 
         this.queue.setDrain(this._respond.bind(this));

@@ -37,6 +37,7 @@ definitions:
       listViewOptions:
         radius: 2
         numPerPage: 10
+        emptyMessage: "This folder is empty"
       scrollbarClass: Consoloid.Ui.List.Scrollbar.Base
       scrollbarOptions: {}
 
