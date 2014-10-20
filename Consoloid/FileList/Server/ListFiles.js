@@ -16,6 +16,9 @@ defineClass('Consoloid.FileList.Server.ListFiles', 'Consoloid.FileList.Server.Au
 
       this.fsModule.readdir(path, function(err, files) {
         if (err) {
+          if (err.toString().indexOf("Error: ENOENT") == 0) {
+            err = __('Folder does not exist');
+          }
           this.sendError(res, err);
           return;
         }
