@@ -50,7 +50,7 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.CreateFolder', functio
     });
   });
 
-  describe("#setup()", function() {
+  describe("#handleArguments(args, expression)", function() {
     it("should create a folder if path does not exist", function() {
       dialog.handleArguments({ path: { value: "/something/something" } }, expr);
       dialog.setup();

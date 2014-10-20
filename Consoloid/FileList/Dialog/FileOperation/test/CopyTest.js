@@ -54,7 +54,7 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.Copy', function() {
     });
   });
 
-  describe("#setup()", function() {
+  describe("#handleArguments(args, expression)", function() {
     it("should copy the file", function() {
       dialog.handleArguments({ source: { value: "/file/exists" }, target: { value: "/file/doesnotexist" } }, expr);
       dialog.setup();

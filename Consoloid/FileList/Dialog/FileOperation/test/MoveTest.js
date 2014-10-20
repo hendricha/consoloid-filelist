@@ -53,7 +53,7 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.Move', function() {
     });
   });
 
-  describe("#setup()", function() {
+  describe("#handleArguments(args, expression)", function() {
     it("should move the file", function() {
       dialog.handleArguments({ source: { value: "/file/exists" }, target: { value: "/file/doesnotexist" } }, expr);
       dialog.setup();

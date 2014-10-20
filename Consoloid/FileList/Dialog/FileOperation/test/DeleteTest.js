@@ -46,7 +46,7 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.Delete', function() {
     });
   });
 
-  describe("#setup()", function() {
+  describe("#handleArguments(args, expression)", function() {
     it("should delete remote file", function() {
       dialog.handleArguments({ path: { value: "/something/somefile" } }, expr);
 
