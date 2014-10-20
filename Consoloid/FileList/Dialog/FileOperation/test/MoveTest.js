@@ -2,12 +2,14 @@ require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require('consoloid-framework/Consoloid/Widget/jquery.jqote2.min.js');
 require("consoloid-framework/Consoloid/Widget/Widget");
 require("consoloid-console/Consoloid/Ui/Dialog");
+require("consoloid-console/Consoloid/Ui/Expression");
 require("consoloid-console/Consoloid/Ui/MultiStateDialog");
 require("consoloid-console/Consoloid/Ui/Volatile/Dialog");
 require("../Abstract");
 require("../Move");
 
 require('consoloid-server/Consoloid/Server/Service');
+require('../../../Server/AuthorizingService.js');
 require("../../../Server/BasicOperations");
 
 require('consoloid-framework/Consoloid/Test/UnitTest');
@@ -15,6 +17,7 @@ require('consoloid-framework/Consoloid/Test/UnitTest');
 describeUnitTest('Consoloid.FileList.Dialog.FileOperation.Move', function() {
   var
     dialog,
+    expr,
     remoteOperations;
 
   beforeEach(function() {
@@ -25,6 +28,10 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.Move', function() {
     env.addServiceMock('translator', {
       trans: __s
     });
+
+    expr = {
+      getTextWithArguments: sinon.stub()
+    };
 
     env.addServiceMock('resource_loader', {
       getParameter: sinon.stub()
@@ -48,7 +55,7 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.Move', function() {
 
   describe("#setup()", function() {
     it("should move the file", function() {
-      dialog.arguments = { source: { value: "/file/exists" }, target: { value: "/file/doesnotexist" } };
+      dialog.handleArguments({ source: { value: "/file/exists" }, target: { value: "/file/doesnotexist" } }, expr);
       dialog.setup();
 
       remoteOperations.callAsync.firstCall.calledWith('describe', ['/file/exists']).should.be.true;
@@ -69,7 +76,7 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.Move', function() {
     });
 
     it("should not move the file if it does not exist", function() {
-      dialog.arguments = { source: { value: "/file/doesnotexist" }, target: { value: "/file/irrelevant" } };
+      dialog.handleArguments({ source: { value: "/file/doesnotexist" }, target: { value: "/file/irrelevant" } }, expr);
       dialog.setup();
 
       remoteOperations.callAsync.firstCall.calledWith('describe', ['/file/doesnotexist']).should.be.true;
@@ -81,7 +88,7 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.Move', function() {
     });
 
     it("should not move the file if target exists", function() {
-      dialog.arguments = { source: { value: "/file/irrelevant" }, target: { value: "/file/exists" } };
+      dialog.handleArguments({ source: { value: "/file/irrelevant" }, target: { value: "/file/exists" } }, expr);
       dialog.setup();
 
       remoteOperations.callAsync.firstCall.calledWith('describe', ['/file/irrelevant']).should.be.true;
@@ -97,7 +104,7 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.Move', function() {
     });
 
     it("should move the file if target exists, but overwrite is set", function() {
-      dialog.arguments = { source: { value: "/file/irrelevant" }, target: { value: "/file/exists" }, overwrite: { value: true } };
+      dialog.handleArguments({ source: { value: "/file/irrelevant" }, target: { value: "/file/exists" }, overwrite: { value: true } }, expr);
       dialog.setup();
 
       remoteOperations.callAsync.firstCall.calledWith('describe', ['/file/irrelevant']).should.be.true;
@@ -118,7 +125,7 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.Move', function() {
     });
 
     it("should not do a thing if both paths are the same", function() {
-      dialog.arguments = { source: { value: "/file/irrelevant" }, target: { value: "/file/irrelevant" } };
+      dialog.handleArguments({ source: { value: "/file/irrelevant" }, target: { value: "/file/irrelevant" } }, expr);
       dialog.setup();
 
       remoteOperations.callAsync.callCount.should.equal(0);

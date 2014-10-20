@@ -2,12 +2,14 @@ require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require('consoloid-framework/Consoloid/Widget/jquery.jqote2.min.js');
 require("consoloid-framework/Consoloid/Widget/Widget");
 require("consoloid-console/Consoloid/Ui/Dialog");
+require("consoloid-console/Consoloid/Ui/Expression");
 require("consoloid-console/Consoloid/Ui/MultiStateDialog");
 require("consoloid-console/Consoloid/Ui/Volatile/Dialog");
 require("../Abstract");
 require("../Delete");
 
 require('consoloid-server/Consoloid/Server/Service');
+require('../../../Server/AuthorizingService.js');
 require("../../../Server/BasicOperations");
 
 require('consoloid-framework/Consoloid/Test/UnitTest');
@@ -15,6 +17,7 @@ require('consoloid-framework/Consoloid/Test/UnitTest');
 describeUnitTest('Consoloid.FileList.Dialog.FileOperation.Delete', function() {
   var
     dialog,
+    expr,
     remoteOperations;
 
   beforeEach(function() {
@@ -23,6 +26,10 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.Delete', function() {
         return str;
       }
     });
+
+    expr = {
+      getTextWithArguments: sinon.stub()
+    };
 
     env.addServiceMock('resource_loader', {
       getParameter: sinon.stub()
@@ -41,8 +48,7 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.Delete', function() {
 
   describe("#setup()", function() {
     it("should delete remote file", function() {
-      dialog.arguments = { path: { value: "/something/somefile" } };
-      dialog.setup();
+      dialog.handleArguments({ path: { value: "/something/somefile" } }, expr);
 
       remoteOperations.callAsync.firstCall.calledWith('describe', ['/something/somefile']).should.be.true;
 
@@ -58,7 +64,7 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.Delete', function() {
     });
 
     it("should delete remote directory", function() {
-      dialog.arguments = { path: { value: "/something/somefolder" }};
+      dialog.handleArguments({ path: { value: "/something/somefolder" } }, expr);
       dialog.setup();
 
       remoteOperations.callAsync.firstCall.calledWith('describe', ['/something/somefolder']).should.be.true;
@@ -75,7 +81,7 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.Delete', function() {
     });
 
     it("should be able to handle non existing path", function() {
-      dialog.arguments = { path: { value: "/something/somefolder" }, recursively: { value: false } };
+      dialog.handleArguments({ path: { value: "/something/somefolder" }, recursively: { value: false }  }, expr);
       dialog.setup();
 
       remoteOperations.callAsync.firstCall.calledWith('describe', ['/something/somefolder']).should.be.true;
@@ -88,7 +94,7 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.Delete', function() {
     });
 
     it("should be able to handle recursive deletion of a folder", function() {
-      dialog.arguments = { path: { value: "/something/somefolder" }, recursively: { value: true } };
+      dialog.handleArguments({ path: { value: "/something/somefolder" }, recursively: { value: true }  }, expr);
       dialog.setup();
 
       remoteOperations.callAsync.firstCall.calledWith('describe', ['/something/somefolder']).should.be.true;
@@ -105,7 +111,7 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.Delete', function() {
     });
 
     it("should show error if recursive deletion was called on a file", function() {
-      dialog.arguments = { path: { value: "/something/somefile" }, recursively: { value: true } };
+      dialog.handleArguments({ path: { value: "/something/somefile" }, recursively: { value: true }  }, expr);
       dialog.setup();
 
       remoteOperations.callAsync.firstCall.calledWith('describe', ['/something/somefile']).should.be.true;

@@ -2,12 +2,14 @@ require("consoloid-framework/Consoloid/Widget/JQoteTemplate");
 require('consoloid-framework/Consoloid/Widget/jquery.jqote2.min.js');
 require("consoloid-framework/Consoloid/Widget/Widget");
 require("consoloid-console/Consoloid/Ui/Dialog");
+require("consoloid-console/Consoloid/Ui/Expression");
 require("consoloid-console/Consoloid/Ui/MultiStateDialog");
 require("consoloid-console/Consoloid/Ui/Volatile/Dialog");
 require("../Abstract");
 require("../CreateFolder");
 
 require('consoloid-server/Consoloid/Server/Service');
+require('../../../Server/AuthorizingService.js');
 require("../../../Server/BasicOperations");
 
 require('consoloid-framework/Consoloid/Test/UnitTest');
@@ -15,6 +17,7 @@ require('consoloid-framework/Consoloid/Test/UnitTest');
 describeUnitTest('Consoloid.FileList.Dialog.FileOperation.CreateFolder', function() {
   var
     dialog,
+    expr,
     remoteOperations;
 
   beforeEach(function() {
@@ -23,6 +26,10 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.CreateFolder', functio
         return str;
       }
     });
+
+    expr = {
+      getTextWithArguments: sinon.stub()
+    };
 
     env.addServiceMock('resource_loader', {
       getParameter: sinon.stub()
@@ -45,7 +52,7 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.CreateFolder', functio
 
   describe("#setup()", function() {
     it("should create a folder if path does not exist", function() {
-      dialog.arguments = { path: { value: "/something/something" } };
+      dialog.handleArguments({ path: { value: "/something/something" } }, expr);
       dialog.setup();
 
       remoteOperations.callAsync.firstCall.calledWith('describe', ['/something/something']).should.be.true;
@@ -62,7 +69,7 @@ describeUnitTest('Consoloid.FileList.Dialog.FileOperation.CreateFolder', functio
     });
 
     it("should be able to handle existing path", function() {
-      dialog.arguments = { path: { value: "/something/somefolder" }, recursively: { value: false } };
+      dialog.handleArguments({ path: { value: "/something/somefolder" }, recursively: { value: false } }, expr);
       dialog.setup();
 
       remoteOperations.callAsync.firstCall.calledWith('describe', ['/something/somefolder']).should.be.true;
