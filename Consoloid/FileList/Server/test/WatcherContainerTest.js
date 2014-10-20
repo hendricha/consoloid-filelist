@@ -37,10 +37,25 @@ describeUnitTest('Consoloid.FileList.Server.WatcherContainer', function() {
       fs.watch.calledWith("/some/path").should.be.ok;
 
       fs.watch.args[0][1]("rename", "/some/path/file");
-      asyncRpcHandler.callAsyncOnSharedService.calledWith("client_file_watcher_container", ["foo_bar", "rename", "/some/path/file"]),should.be.ok;
+      asyncRpcHandler.callAsyncOnSharedService.calledWith("client_file_watcher_container", 'eventHappened', ["foo_bar", "rename", "/some/path/file"]).should.be.ok;
     });
 
-    it("should not send envets that often");
+    it("should not send change envets that often", function() {
+      var clock = sinon.useFakeTimers();
+      service.watch(res, "/some/path", "foo_bar");
+      fs.watch.calledWith("/some/path").should.be.ok;
+
+      fs.watch.args[0][1]("change", "/some/path/file");
+      fs.watch.args[0][1]("change", "/some/path/file");
+      asyncRpcHandler.callAsyncOnSharedService.calledWith("client_file_watcher_container", 'eventHappened', ["foo_bar", "change", "/some/path/file"]).should.be.ok;
+      asyncRpcHandler.callAsyncOnSharedService.calledOnce.should.be.ok;
+
+      clock.tick(30000);
+      fs.watch.args[0][1]("change", "/some/path/file");
+      asyncRpcHandler.callAsyncOnSharedService.calledTwice.should.be.ok;
+
+      clock.restore();
+    });
   });
 
   describe("#close(res, id)", function() {

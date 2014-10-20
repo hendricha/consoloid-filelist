@@ -11,9 +11,12 @@ defineClass('Consoloid.FileList.Server.WatcherContainer', 'Consoloid.Server.Serv
     watch: function(res, path, id)
     {
       try {
-        this.watchers[id] = this.fsModule.watch(path, function(event, filename) {
-          this.__callClientWatcherContainer(id, event, filename);
-        }.bind(this));
+        this.watchers[id] = {
+          watcher: this.fsModule.watch(path, function(event, filename) {
+            this.__callClientWatcherContainer(id, event, filename);
+          }.bind(this)),
+          reportingChangeAllowed: true
+        }
         this.sendResult(res, { result: true });
       } catch (err) {
         this.sendError(res, err);
@@ -22,6 +25,16 @@ defineClass('Consoloid.FileList.Server.WatcherContainer', 'Consoloid.Server.Serv
 
     __callClientWatcherContainer: function(id, event, filename)
     {
+      if (event == "change") {
+        if (!this.watchers[id].reportingChangeAllowed) {
+          return;
+        }
+
+        this.watchers[id].reportingChangeAllowed = false;
+        setTimeout(function() {
+          this.watchers[id].reportingChangeAllowed = true;
+        }.bind(this), 30000);
+      }
       this.get('async_rpc_handler_server').callAsyncOnSharedService(
         "client_file_watcher_container",
         "eventHappened",
@@ -41,7 +54,7 @@ defineClass('Consoloid.FileList.Server.WatcherContainer', 'Consoloid.Server.Serv
     close: function(res, id)
     {
       try {
-        this.watchers[id].close();
+        this.watchers[id].watcher.close();
         delete this.watchers[id];
         this.sendResult(res, { result: true });
       } catch (err) {
