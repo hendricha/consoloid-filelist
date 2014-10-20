@@ -5,6 +5,7 @@ require('../FileGetter.js');
 require('consoloid-framework/Consoloid/Test/UnitTest');
 describeUnitTest('Consoloid.FileList.Server.FileGetter', function() {
   var
+    service,
     datauri,
     authorizer,
     res;
