@@ -2,6 +2,9 @@
   "name": "consoloid-filelist",
   "version": "0.0.1",
   "dependencies": {
+    "datauri": "*",
+    "rimraf": "*",
+    "ncp": "*"
   },
   "description": "File operations module for Consoloid",
   "homepage": "https://github.com/hendricha/consoloid-filelist",
