@@ -8,9 +8,14 @@
 
 <script id="Consoloid-FileList-ItemHeader" type="text/x-jqote-template">
 <![CDATA[
-  <h4 class="ui header <%= this.extended ? "less" : "more" %>">
-    <i class="<%= this.data.isFile ? "file" : "folder" %> icon"></i>
-    <%= this.data.name %>
+  <h4 class="ui header checkbox">
+    <input type="checkbox">
+    <label>
+      <span class="<%= this.extended ? "less" : "more" %>">
+        <i class="<%= this.data.isFile ? "file" : "folder" %> icon"></i>
+        <span class="file name"><%= this.data.name %></span>
+      </span>
+    </label>
   </h4>
   <% if (!this.data.isFile) { %>
     <span class="drop zone" style="display:none;" data-path="<%= this.data.fullPath %>"><%= __("Here") %></span>

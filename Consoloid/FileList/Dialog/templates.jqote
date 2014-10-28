@@ -2,21 +2,37 @@
 <![CDATA[
   <div class="ui filelist raised segment">
     <div class="ui breadcrumb">
-      <% this.path.split("/").forEach(function(section, index) { %>
-        <% if (index < this.path.split("/").length - 1) { %>
-          <div class="section"><%= section || "/" %></div>
+      <% var splittedPath = this.path == "/" ? ["/"] : this.path.split("/"); %>
+      <% var currentAbsolutePath = ""; %>
+      <% for (var i = 0; i < splittedPath.length; i++) { %>
+        <% if (i < splittedPath.length - 1) { %>
+          <% currentAbsolutePath += splittedPath[i] + "/"; %>
+          <div class="section">
+            <div class="drop zone" style="display:none;" data-path="<%= currentAbsolutePath %>"><%= __("Here") %></div>
+            <%= __s("Show file view", { "of folder <value>": currentAbsolutePath }, splittedPath[i] || "/", true) %>
+          </div>
           <i class="right arrow icon divider"></i>
         <% } else { %>
-          <div class="active section"><%= section %></div>
+          <div class="active section"><%= splittedPath[i] %></div>
         <% }; %>
-      <% }.bind(this)); %>
+      <% }; %>
     </div>
     <div class="float right toolbar">
       <%= __s("Upload files", { "to <value>": this.path }, null, true) %>
       <%= __s("New folder", {}, null, true) %>
       <span class="drop zone" style="display:none;" data-path="<%= this.path %>"><%= __("Here") %></span>
     </div>
-    <%= this.create("Consoloid.Widget.JQoteTemplate", { id: 'Consoloid-Ui-List-Dialog', container: this.container }).get().jqote(this) %>
+
+    <div class="sidebar container">
+      <div class="selection sidebar" style="display: none">
+        <%= __s("Copy selection") %>
+        <%= __s("Delete selection") %>
+        <%= __s("Move selection") %>
+        <%= __s("Clear selection") %>
+      </div>
+      <div><%= this.create("Consoloid.Widget.JQoteTemplate", { id: 'Consoloid-Ui-List-Dialog', container: this.container }).get().jqote(this) %></div>
+    </div>
+
   </div>
 ]]>
 </script>

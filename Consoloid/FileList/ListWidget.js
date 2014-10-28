@@ -1,6 +1,6 @@
 defineClass('Consoloid.FileList.ListWidget', 'Consoloid.Ui.List.Widget',
   {
-    setPath: function(path)
+      setPath: function(path)
     {
       this.dataSource.setPath(path);
       return this;
@@ -25,6 +25,18 @@ defineClass('Consoloid.FileList.ListWidget', 'Consoloid.Ui.List.Widget',
     {
       this.dataSource.clearData();
       this.__base();
+    },
+
+    __elementsRenderedEvent: function()
+    {
+      this.node.find('.ui.checkbox').checkbox();
+    },
+
+    clearSelection: function()
+    {
+      this.node.find('.ui.checkbox').each(function() {
+        $(this).checkbox('disable');
+      });
     }
   }
 );

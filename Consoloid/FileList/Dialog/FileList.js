@@ -3,26 +3,41 @@ defineClass('Consoloid.FileList.Dialog.FileList', 'Consoloid.Ui.List.Dialog.Dial
     __constructor: function(options)
     {
       this.__base($.extend({
-        contextObjectClass: 'Consoloid.FileList.Context.List'
+        contextObjectClass: 'Consoloid.FileList.Context.List',
+        selection: []
       }, options));
       this.requireProperty('defaultFolder');
 
       this.get('css_loader').load("Consoloid-FileList-Dialog-filelist");
       this.get('css_loader').load("Consoloid-FileList-Dialog-vanda");
+
       this.list.getEventDispatcher().bind("error", this.__closeWatcher.bind(this));
     },
 
     __closeWatcher: function()
     {
       this.get("client_file_watcher_container").close(this.name);
-
     },
 
     handleArguments: function(args, expression)
     {
       this.__base(args, expression);
       this.path = this.arguments.folder ? this.arguments.folder.value : this.defaultFolder;
+      this.path = this.__normalizePath(this.path);
       this.list.setPath(this.path);
+    },
+
+    __normalizePath: function(path)
+    {
+      path = (path[path.length - 1] == "/" && path.length > 1) ? path.substring(0, path.length - 1) : path
+      var normalizedPath = path[0];
+      for (var i = 1; i < path.length; i++) {
+        if (path[i] != "/" || path[i-1] != "/") {
+          normalizedPath += path[i];
+        }
+      }
+
+      return normalizedPath;
     },
 
     getPath: function()
@@ -50,6 +65,25 @@ defineClass('Consoloid.FileList.Dialog.FileList', 'Consoloid.Ui.List.Dialog.Dial
       this.__base();
       this.get("client_file_watcher_container").watch(this, this.path, this.name);
       this.get("filelist.dropzone_controller").register(this.node);
+
+      var $this = this
+      this.node.on("change", ".ui.checkbox", function() {
+        var checkbox = $(this).find("input:checkbox")[0];
+        var name = $this.__normalizePath($this.path + "/" + $(this).find(".file.name").text());
+        if (checkbox.checked) {
+          $this.selection.push(name);
+        } else {
+          $this.selection.splice($this.selection.indexOf(name), 1);
+        }
+
+        console.log($this.selection);
+
+        if ($this.selection.length == 0) {
+          $this.node.find(".selection.sidebar").animate({width:'hide'});
+        } else {
+          $this.node.find(".selection.sidebar").animate({width:'show'});
+        }
+      });
     }
   }
 );

@@ -180,7 +180,7 @@ definitions:
         files:
           cls: Consoloid.Form.File
           options:
-            title: files
+            title: Files
         path:
           cls: Consoloid.Form.Text
           options:
@@ -217,3 +217,22 @@ definitions:
   filelist.dropzone_controller:
     cls: Consoloid.FileList.DropzoneController
     shared: true
+
+  file.clear.selection.sentence:
+    tags: [ "sentence" ]
+    cls: Consoloid.Interpreter.ContextDependSentence
+    options:
+      service: file.clear.selection.dialog
+      patterns:
+        - Clear selection
+        - Clear selection of <name>
+      arguments:
+        name:
+          type: Consoloid.Form.ContextObject
+          pattern: of <value>
+          required: false
+      requiredContextIsAvailable:
+        options:
+          types: [ Consoloid.FileList.Context.List ]
+  file.clear.selection.dialog:
+    cls: Consoloid.FileList.Dialog.ClearSelection

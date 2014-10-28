@@ -176,7 +176,7 @@ body,
 
 .dialogs > .dialog > .request,
 #prompt .request,
-.ui.mini.basic.button
+.ui.basic.button
 {
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee8d5), color-stop(100%,#93a1a1));
   background: linear-gradient(to bottom, #eee8d5 0%, #93a1a1 100%);
@@ -185,19 +185,19 @@ body,
 
 .dialogs > .dialog > .request,
 #prompt .request,
-.ui.mini.basic.button,
-.ui.mini.basic.button > .icon {
+.ui.basic.button,
+.ui.basic.button > .icon {
   color: #073642!important;
  }
 
-.ui.mini.basic.button:hover
+.ui.basic.button:hover
 {
   opacity: 1 !important;
   background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eee8d5), color-stop(100%,#93b1b1));
   background: linear-gradient(to bottom, #eee8d5 0%, #93b1b1 100%);
 }
 
-.ui.mini.basic.button:active
+.ui.basic.button:active
 {
   opacity: 1;
   background-color: #eee8d5!important;
@@ -316,6 +316,8 @@ input.human-text {
 
 .volatile-convos .dialog,
 .filelist.segment,
+.filelist.segment .ui.header.checkbox label,
+.solarized.light.segment,
 .form.segment,
 .argument.fixer.segment,
 .list-view .segment,
@@ -694,6 +696,29 @@ input.human-text {
   transition: background 0.1s linear 0s;
   width: 0.6em;
   z-index: 2;
+}
+
+.filelist .breadcrumb .section .button i {
+  display: none;
+}
+
+.filelist .breadcrumb .section .button:not(:hover) {
+  border: none;
+  background: none;
+}
+
+.sidebar.container {
+  width: 100%;
+  display: table;
+}
+
+.sidebar.container > div {
+  display: table-cell;
+}
+
+.selection.sidebar {
+  width: 100px;
+  padding-right: 2em;
 }
 
 @media (min-width: 992px) {
