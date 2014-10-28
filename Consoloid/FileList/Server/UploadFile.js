@@ -11,6 +11,7 @@ defineClass('Consoloid.FileList.Server.UploadFile', 'Consoloid.FileList.Server.A
 
     process: function(res, values)
     {
+      this.res = res;
       this.path = values.path + "/";
       if (!this._authorize(this.authorizer.__self.OPERATION_WRITE, this.path)) return;
 
