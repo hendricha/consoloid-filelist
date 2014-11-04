@@ -228,11 +228,70 @@ definitions:
         - Clear selection of <name>
       arguments:
         name:
-          type: Consoloid.Form.ContextObject
+          type: Consoloid.FileList.Context.List
           pattern: of <value>
           required: false
-      requiredContextIsAvailable:
-        options:
-          types: [ Consoloid.FileList.Context.List ]
+
   file.clear.selection.dialog:
     cls: Consoloid.FileList.Dialog.ClearSelection
+
+  file.copy.selection.sentence:
+    cls: Consoloid.Interpreter.Sentence
+    tags: [ "sentence" ]
+    shared: false
+    options:
+      service: file.selection.operations
+      method: copy
+      patterns: [ "Copy the selection" ]
+      arguments:
+        target:
+          type: string
+          pattern: to <value>
+          required: true
+        overwrite:
+          type: boolean
+          pattern: overwrite
+          required: false
+        fileList:
+          type: Consoloid.FileList.Context.List
+          pattern: of <value>
+          required: false
+
+  file.selection.operations:
+    cls: Consoloid.FileList.SelectionOperations
+
+  file.move.selection.sentence:
+    cls: Consoloid.Interpreter.Sentence
+    tags: [ "sentence" ]
+    shared: false
+    options:
+      service: file.selection.operations
+      method: move
+      patterns: [ "Move the selection" ]
+      arguments:
+        target:
+          type: string
+          pattern: to <value>
+          required: true
+        overwrite:
+          type: boolean
+          pattern: overwrite
+          required: false
+        fileList:
+          type: Consoloid.FileList.Context.List
+          pattern: of <value>
+          required: false
+
+  file.delete.selection.sentence:
+    cls: Consoloid.Interpreter.Sentence
+    tags: [ "sentence" ]
+    shared: false
+    options:
+      service: file.selection.operations
+      method: delete
+      patterns: [ "Delete the selection" ]
+      arguments:
+        fileList:
+          type: Consoloid.FileList.Context.List
+          pattern: of <value>
+          required: false
