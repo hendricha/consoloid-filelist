@@ -12,7 +12,8 @@ describeUnitTest('Consoloid.FileList.SelectionOperations', function() {
       findByClass: sinon.stub().returns([{
         entity: {
           list: {
-            getSelection: sinon.stub().returns([ "foo" ])
+            getSelection: sinon.stub().returns([ "foo" ]),
+            clearSelection: sinon.stub()
           }
         }
       }])
@@ -44,6 +45,7 @@ describeUnitTest('Consoloid.FileList.SelectionOperations', function() {
     it("should start copy dialog for each selected item", function() {
       selectionOperations.copy({ target: { value: "bar" } });
       dialogLauncher.startFromText.calledWith('Copy, from "foo", to "bar"').should.be.ok;
+      context.findByClass()[0].entity.list.clearSelection.calledOnce.should.be.ok;
     });
   });
 
@@ -51,6 +53,7 @@ describeUnitTest('Consoloid.FileList.SelectionOperations', function() {
     it("should start move dialog for each selected item", function() {
       selectionOperations.move({ target: { value: "bar" } });
       dialogLauncher.startFromText.calledWith('Move, from "foo", to "bar/foo"').should.be.ok;
+      context.findByClass()[0].entity.list.clearSelection.calledOnce.should.be.ok;
     });
   });
 
@@ -58,6 +61,7 @@ describeUnitTest('Consoloid.FileList.SelectionOperations', function() {
     it("should start delete dialog for each selected item", function() {
       selectionOperations.delete({});
       dialogLauncher.startFromText.calledWith('Delete, path "foo"').should.be.ok;
+      context.findByClass()[0].entity.list.clearSelection.calledOnce.should.be.ok;
     });
   });
 

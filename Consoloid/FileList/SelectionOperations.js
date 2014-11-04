@@ -17,8 +17,8 @@ defineClass('Consoloid.FileList.SelectionOperations', 'Consoloid.Base.Object',
 
     __startDialogs: function(args) {
       this.arguments = args;
-      this.__getSelection();
-      this.selection.forEach(function(item) {
+      this.__getList();
+      this.list.getSelection().forEach(function(item) {
         var text = "";
         switch (this.text) {
           case "Delete":
@@ -34,16 +34,17 @@ defineClass('Consoloid.FileList.SelectionOperations', 'Consoloid.Base.Object',
         }
         this.container.get("dialogLauncher").startFromText(text);
       }.bind(this));
+      this.list.clearSelection();
     },
 
-    __getSelection: function() {
+    __getList: function() {
       var fileList = ('fileList' in this.arguments && this.arguments.fileList) ?
                            this.arguments.fileList :
                            this.__lookupContextObject(
                                'Consoloid.FileList.Context.List',
                                0,
                                "There isn't any active file list dialog to submit");
-      this.selection = fileList.entity.list.getSelection();
+      this.list = fileList.entity.list;
     },
 
     __lookupContextObject: function(cls, index, errorMessage)
