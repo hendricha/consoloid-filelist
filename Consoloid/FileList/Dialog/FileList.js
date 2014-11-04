@@ -4,7 +4,6 @@ defineClass('Consoloid.FileList.Dialog.FileList', 'Consoloid.Ui.List.Dialog.Dial
     {
       this.__base($.extend({
         contextObjectClass: 'Consoloid.FileList.Context.List',
-        selection: []
       }, options));
       this.requireProperty('defaultFolder');
 
@@ -71,14 +70,14 @@ defineClass('Consoloid.FileList.Dialog.FileList', 'Consoloid.Ui.List.Dialog.Dial
         var checkbox = $(this).find("input:checkbox")[0];
         var name = $this.__normalizePath($this.path + "/" + $(this).find(".file.name").text());
         if (checkbox.checked) {
-          $this.selection.push(name);
+          $this.list.getSelection().push(name);
         } else {
-          $this.selection.splice($this.selection.indexOf(name), 1);
+          $this.list.getSelection().splice($this.list.getSelection().indexOf(name), 1);
         }
 
-        console.log($this.selection);
+        console.log($this.list.getSelection());
 
-        if ($this.selection.length == 0) {
+        if ($this.list.getSelection().length == 0) {
           $this.node.find(".selection.sidebar").animate({width:'hide'});
         } else {
           $this.node.find(".selection.sidebar").animate({width:'show'});

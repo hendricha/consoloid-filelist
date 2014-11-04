@@ -1,6 +1,13 @@
 defineClass('Consoloid.FileList.ListWidget', 'Consoloid.Ui.List.Widget',
   {
-      setPath: function(path)
+    __constructor: function(options)
+    {
+      this.__base($.extend({
+        selection: []
+      }, options));
+    },
+
+    setPath: function(path)
     {
       this.dataSource.setPath(path);
       return this;
@@ -37,6 +44,11 @@ defineClass('Consoloid.FileList.ListWidget', 'Consoloid.Ui.List.Widget',
       this.node.find('.ui.checkbox').each(function() {
         $(this).checkbox('disable');
       });
+    },
+
+    getSelection: function()
+    {
+      return this.selection;
     }
   }
 );
