@@ -55,7 +55,7 @@ describeUnitTest('Consoloid.FileList.ListItemFactory', function() {
   describe("render(data)", function() {
     it("should create a collapsing list element and return with its node, as an Collapsing Factory", function() {
       createFactory();
-      var data = { name: "virus.exe" };
+      var data = { name: "virus.exe, isFile: true" };
       factory.render(data).should.equal(collapsingElement.node);
       create.calledWith("Consoloid.Ui.List.Factory.CollapsingElement").should.be.ok;
       create.args[0][1].eventDispatcher.should.equal(eventDispatcher);
@@ -67,7 +67,7 @@ describeUnitTest('Consoloid.FileList.ListItemFactory', function() {
 
     it("should add empty additionalActions to data if no services were configured", function() {
       createFactory();
-      factory.render({ name: "virus.exe" });
+      factory.render({ name: "virus.exe", isFile: true });
       create.args[0][1].data.name.should.equal("virus.exe");
       create.args[0][1].data.additionalActions.length.should.equal(0);
     });
@@ -75,7 +75,7 @@ describeUnitTest('Consoloid.FileList.ListItemFactory', function() {
     it("should add empty additionalActions to data if no relevant services were configured", function() {
       env.container.getAllTagged.returns([registrationA]);
       createFactory();
-      factory.render({ name: "virus.jpg" });
+      factory.render({ name: "virus.jpg", isFile: true });
       create.args[0][1].data.name.should.equal("virus.jpg");
       create.args[0][1].data.additionalActions.length.should.equal(0);
     });
@@ -83,7 +83,7 @@ describeUnitTest('Consoloid.FileList.ListItemFactory', function() {
     it("should add actions if they match the a registered extension", function() {
       env.container.getAllTagged.returns([registrationA]);
       createFactory();
-      factory.render({ name: "virus.exe" });
+      factory.render({ name: "virus.exe", isFile: true });
       create.args[0][1].data.additionalActions[0][0].should.equal("Tottaly execute");
       create.args[0][1].data.additionalActions[0][1]["file <name>"].should.equal("virus.exe");
       create.args[0][1].data.additionalActions[0][2].should.equal("Run");
@@ -93,7 +93,7 @@ describeUnitTest('Consoloid.FileList.ListItemFactory', function() {
     it("should add all actions if they match multiple registerations", function() {
       env.container.getAllTagged.returns([registrationA, registrationB]);
       createFactory();
-      factory.render({ name: "virus.exe" });
+      factory.render({ name: "virus.exe", isFile: true });
       create.args[0][1].data.additionalActions[0][0].should.equal("Tottaly execute");
       create.args[0][1].data.additionalActions[0][1]["file <name>"].should.equal("virus.exe");
       create.args[0][1].data.additionalActions[0][2].should.equal("Run");
@@ -101,6 +101,14 @@ describeUnitTest('Consoloid.FileList.ListItemFactory', function() {
       create.args[0][1].data.additionalActions[1][0].should.equal("Check with virus scanner");
       create.args[0][1].data.additionalActions[1][1]["file <name>"].should.equal("virus.exe");
       create.args[0][1].data.additionalActions[1][2].should.equal("Check");
+    });
+
+    it("should add empty additionalActions to data if it's not a file", function() {
+      env.container.getAllTagged.returns([registrationA]);
+      createFactory();
+      factory.render({ name: "virus.exe", isFile: false });
+      create.args[0][1].data.name.should.equal("virus.exe");
+      create.args[0][1].data.additionalActions.length.should.equal(0);
     });
   });
 

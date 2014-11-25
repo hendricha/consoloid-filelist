@@ -9,7 +9,18 @@ defineClass('Consoloid.FileList.ListItemFactory', 'Consoloid.Ui.List.Factory.Col
 
   render: function(data)
   {
-    data.additionalActions = [];
+    data.additionalActions = this.__getAdditionalActions(data);
+
+    return this.__base(data);
+  },
+
+  __getAdditionalActions: function(data)
+  {
+    if (!data.isFile) {
+      return [];
+    }
+
+    var additionalActions = [];
 
     this.registrations.forEach(function(registration) {
       var extensions = registration.getFileExtensions();
@@ -21,13 +32,13 @@ defineClass('Consoloid.FileList.ListItemFactory', 'Consoloid.Ui.List.Factory.Col
               expression[1][key] = data.name;
             }
           });
-          data.additionalActions.push(expression);
+          additionalActions.push(expression);
           break;
         }
       };
     });
 
-    return this.__base(data);
+    return additionalActions;
   }
 }
 );
