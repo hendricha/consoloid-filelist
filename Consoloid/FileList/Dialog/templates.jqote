@@ -25,10 +25,10 @@
 
     <div class="sidebar container">
       <div class="selection sidebar" style="display: none">
-        <%= __s("Copy selection") %>
-        <%= __s("Delete selection") %>
-        <%= __s("Move selection") %>
-        <%= __s("Clear selection") %>
+        <%= __s("Copy the selection") %>
+        <%= __s("Delete the selection") %>
+        <%= __s("Move the selection") %>
+        <%= __s("Clear the selection") %>
       </div>
       <div><%= this.create("Consoloid.Widget.JQoteTemplate", { id: 'Consoloid-Ui-List-Dialog', container: this.container }).get().jqote(this) %></div>
     </div>

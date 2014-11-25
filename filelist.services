@@ -224,8 +224,8 @@ definitions:
     options:
       service: file.clear.selection.dialog
       patterns:
-        - Clear selection
-        - Clear selection of <name>
+        - Clear the selection
+        - Clear the selection of <name>
       arguments:
         name:
           type: Consoloid.FileList.Context.List
