@@ -15,7 +15,13 @@ defineClass('Consoloid.FileList.ListItemFactory', 'Consoloid.Ui.List.Factory.Col
       var extensions = registration.getFileExtensions();
       for (var i = 0; i < extensions.length; i++) {
         if (data.name.indexOf("." + extensions[i]) == data.name.length - extensions[i].length - 1) {
-          data.additionalActions.push(registration.getExpression());
+          var expression = registration.getExpression();
+          $.each(expression[1], function(key, value) {
+            if (value == "@target") {
+              expression[1][key] = data.name;
+            }
+          });
+          data.additionalActions.push(expression);
           break;
         }
       };

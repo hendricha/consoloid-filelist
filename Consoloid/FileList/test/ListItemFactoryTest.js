@@ -85,7 +85,7 @@ describeUnitTest('Consoloid.FileList.ListItemFactory', function() {
       createFactory();
       factory.render({ name: "virus.exe" });
       create.args[0][1].data.additionalActions[0][0].should.equal("Tottaly execute");
-      create.args[0][1].data.additionalActions[0][1]["file <name>"].should.equal("@target");
+      create.args[0][1].data.additionalActions[0][1]["file <name>"].should.equal("virus.exe");
       create.args[0][1].data.additionalActions[0][2].should.equal("Run");
       create.args[0][1].data.additionalActions[0][3].should.equal(true);
     });
@@ -95,11 +95,11 @@ describeUnitTest('Consoloid.FileList.ListItemFactory', function() {
       createFactory();
       factory.render({ name: "virus.exe" });
       create.args[0][1].data.additionalActions[0][0].should.equal("Tottaly execute");
-      create.args[0][1].data.additionalActions[0][1]["file <name>"].should.equal("@target");
+      create.args[0][1].data.additionalActions[0][1]["file <name>"].should.equal("virus.exe");
       create.args[0][1].data.additionalActions[0][2].should.equal("Run");
       create.args[0][1].data.additionalActions[0][3].should.equal(true);
       create.args[0][1].data.additionalActions[1][0].should.equal("Check with virus scanner");
-      create.args[0][1].data.additionalActions[1][1]["file <name>"].should.equal("@target");
+      create.args[0][1].data.additionalActions[1][1]["file <name>"].should.equal("virus.exe");
       create.args[0][1].data.additionalActions[1][2].should.equal("Check");
     });
   });
