@@ -48,6 +48,9 @@
         <%= __s("Move", { "from <value>": this.data.fullPath }, "Move") %></span>
         <%= __s("Move", { "from <value>": this.data.fullPath }, "Rename", true) %>
         <%= __s("Delete", { "path <value>": this.data.fullPath }, "Delete", true) %>
+        <% this.data.additionalActions.forEach(function(action) { %>
+          <%= __s.apply(undefined, action) %>
+        <% }); %>
     </div>
   </div>
 ]]>
