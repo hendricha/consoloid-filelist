@@ -36,12 +36,12 @@ describeUnitTest('Consoloid.FileList.ListItemFactory', function() {
 
     registrationA = {
       getFileExtensions: sinon.stub().returns(["exe", "com"]),
-      getExpression: sinon.stub().returns(["Tottaly execute", {"file <name>": "@target"}, "Run", true])
+      getExpression: sinon.stub().returns(["Tottaly execute", {"file <name>": "!target!"}, "Run", true])
     }
 
     registrationB = {
       getFileExtensions: sinon.stub().returns(["exe"]),
-      getExpression: sinon.stub().returns(["Check with virus scanner", {"file <name>": "@target"}, "Check"])
+      getExpression: sinon.stub().returns(["Check with virus scanner", {"file <name>": "!target!"}, "Check"])
     }
   });
 

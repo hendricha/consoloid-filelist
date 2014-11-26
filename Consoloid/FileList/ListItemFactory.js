@@ -28,7 +28,7 @@ defineClass('Consoloid.FileList.ListItemFactory', 'Consoloid.Ui.List.Factory.Col
           if (data.name.indexOf("." + extensions[i]) == data.name.length - extensions[i].length - 1) {
             var expression = registration.getExpression();
             $.each(expression[1], function(key, value) {
-              if (value == "@target") {
+              if (value == "!target!") {
                 expression[1][key] = data.name;
               }
             });

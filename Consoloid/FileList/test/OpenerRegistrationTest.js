@@ -8,7 +8,7 @@ describeUnitTest('Consoloid.FileList.OpenerRegistration', function() {
   beforeEach(function() {
     registration = env.create("Consoloid.FileList.OpenerRegistration", {
       fileExtensions: ["exe", "com"],
-      expression: ["Tottaly execute", {"file <name>": "@target"}, "Run", true]
+      expression: ["Tottaly execute", {"file <name>": "!target!"}, "Run", true]
     });
   });
 
@@ -22,7 +22,7 @@ describeUnitTest('Consoloid.FileList.OpenerRegistration', function() {
   describe("#getExpression()", function() {
     it("should return configured expression", function() {
       registration.getExpression()[0].should.equal("Tottaly execute");
-      registration.getExpression()[1]["file <name>"].should.equal("@target");
+      registration.getExpression()[1]["file <name>"].should.equal("!target!");
       registration.getExpression()[2].should.equal("Run");
       registration.getExpression()[3].should.equal(true);
     });
