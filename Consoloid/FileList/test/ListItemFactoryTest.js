@@ -110,6 +110,27 @@ describeUnitTest('Consoloid.FileList.ListItemFactory', function() {
       create.args[0][1].data.name.should.equal("virus.exe");
       create.args[0][1].data.additionalActions.length.should.equal(0);
     });
+
+
+    it("should work with multiple calls", function() {
+      env.container.getAllTagged.returns([registrationA]);
+      createFactory();
+      factory.render({ name: "virus.exe", isFile: true });
+      factory.render({ name: "not_a_virus.exe", isFile: true });
+      factory.render({ name: "cyrus.exe", isFile: true });
+      create.args[0][1].data.additionalActions[0][0].should.equal("Tottaly execute");
+      create.args[0][1].data.additionalActions[0][1]["file <name>"].should.equal("virus.exe");
+      create.args[0][1].data.additionalActions[0][2].should.equal("Run");
+      create.args[0][1].data.additionalActions[0][3].should.equal(true);
+      create.args[1][1].data.additionalActions[0][0].should.equal("Tottaly execute");
+      create.args[1][1].data.additionalActions[0][1]["file <name>"].should.equal("not_a_virus.exe");
+      create.args[1][1].data.additionalActions[0][2].should.equal("Run");
+      create.args[1][1].data.additionalActions[0][3].should.equal(true);
+      create.args[2][1].data.additionalActions[0][0].should.equal("Tottaly execute");
+      create.args[2][1].data.additionalActions[0][1]["file <name>"].should.equal("cyrus.exe");
+      create.args[2][1].data.additionalActions[0][2].should.equal("Run");
+      create.args[2][1].data.additionalActions[0][3].should.equal(true);
+    });
   });
 
   afterEach(function() {

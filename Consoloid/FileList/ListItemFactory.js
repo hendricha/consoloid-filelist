@@ -26,7 +26,7 @@ defineClass('Consoloid.FileList.ListItemFactory', 'Consoloid.Ui.List.Factory.Col
         var extensions = registration.getFileExtensions();
         for (var i = 0; i < extensions.length; i++) {
           if (data.name.indexOf("." + extensions[i]) == data.name.length - extensions[i].length - 1) {
-            var expression = registration.getExpression();
+            var expression = this.__cloneArray(registration.getExpression());
             $.each(expression[1], function(key, value) {
               if (value == "!target!") {
                 expression[1][key] = data.name;
@@ -36,9 +36,14 @@ defineClass('Consoloid.FileList.ListItemFactory', 'Consoloid.Ui.List.Factory.Col
             break;
           }
         };
-      });
+      }.bind(this));
 
       return additionalActions;
+    },
+
+    __cloneArray: function(arr)
+    {
+      return $.extend(true, [], arr);
     }
   }
 );
