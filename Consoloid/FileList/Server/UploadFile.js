@@ -13,7 +13,7 @@ defineClass('Consoloid.FileList.Server.UploadFile', 'Consoloid.FileList.Server.A
     {
       this.res = res;
       this.path = values.path + "/";
-      if (!this._authorize(this.authorizer.__self.OPERATION_WRITE, this.path)) return;
+      if (!this._authorize(this.authorizer.__self.OPERATION_FILE_WRITE, this.path)) return;
 
       this.sendResult(res, {
         result: 'ok',

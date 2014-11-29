@@ -20,8 +20,8 @@ describeUnitTest('Consoloid.FileList.Server.FileGetter', function() {
     authorizer = {
       authorize: sinon.stub(),
       __self: {
-        OPERATION_READ: 0,
-        OPERATION_WRITE: 1
+        OPERATION_FILE_READ: 0,
+        OPERATION_FILE_WRITE: 1
       }
     }
     env.addServiceMock("file.access.authorizer", authorizer);
@@ -51,7 +51,7 @@ describeUnitTest('Consoloid.FileList.Server.FileGetter', function() {
       authorizer.authorize.throws();
       service.getFile(res, "/some/path");
 
-      authorizer.authorize.calledWith(Consoloid.FileList.Server.MockAccessAuthorizer.OPERATION_READ, "/some/path").should.be.ok;
+      authorizer.authorize.calledWith(Consoloid.FileList.Server.MockAccessAuthorizer.OPERATION_FILE_READ, "/some/path").should.be.ok;
       service.sendError.calledWith(res).should.be.ok;
     });
   });

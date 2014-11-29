@@ -12,7 +12,7 @@ defineClass('Consoloid.FileList.Server.BasicOperations', 'Consoloid.FileList.Ser
     unlink: function(res, path)
     {
       this.res = res;
-      if (!this._authorize(this.authorizer.__self.OPERATION_WRITE, path)) return;
+      if (!this._authorize(this.authorizer.__self.OPERATION_FILE_WRITE, path)) return;
       this.fsModule.unlink(path, this._respond.bind(this));
     },
 
@@ -23,8 +23,8 @@ defineClass('Consoloid.FileList.Server.BasicOperations', 'Consoloid.FileList.Ser
     rename: function(res, oldPath, newPath, overwrite)
     {
       this.res = res;
-      if (!this._authorize(this.authorizer.__self.OPERATION_WRITE, oldPath)) return;
-      if (!this._authorize(this.authorizer.__self.OPERATION_WRITE, newPath)) return;
+      if (!this._authorize(this.authorizer.__self.OPERATION_FILE_WRITE, oldPath)) return;
+      if (!this._authorize(this.authorizer.__self.OPERATION_FILE_WRITE, newPath)) return;
       if (!overwrite && this.fsModule.existsSync(newPath)) {
         this.sendError(this.res, "FILEEXISTS");
         return;
@@ -35,7 +35,7 @@ defineClass('Consoloid.FileList.Server.BasicOperations', 'Consoloid.FileList.Ser
     rmdir: function(res, path, recursive)
     {
       this.res = res;
-      if (!this._authorize(this.authorizer.__self.OPERATION_WRITE, path)) return;
+      if (!this._authorize(this.authorizer.__self.OPERATION_FILE_WRITE, path)) return;
 
       if (recursive) {
         this.rimrafModule(path, this._respond.bind(this));
@@ -47,22 +47,22 @@ defineClass('Consoloid.FileList.Server.BasicOperations', 'Consoloid.FileList.Ser
     mkdir: function(res, path)
     {
       this.res = res;
-      if (!this._authorize(this.authorizer.__self.OPERATION_WRITE, path)) return;
+      if (!this._authorize(this.authorizer.__self.OPERATION_FILE_WRITE, path)) return;
       this.fsModule.mkdir(path, this._respond.bind(this));
     },
 
     copy: function(res, oldPath, newPath, overWrite)
     {
       this.res = res;
-      if (!this._authorize(this.authorizer.__self.OPERATION_READ, oldPath)) return;
-      if (!this._authorize(this.authorizer.__self.OPERATION_WRITE, newPath)) return;
+      if (!this._authorize(this.authorizer.__self.OPERATION_FILE_READ, oldPath)) return;
+      if (!this._authorize(this.authorizer.__self.OPERATION_FILE_WRITE, newPath)) return;
       this.copyModule(oldPath, newPath, { clobber: overWrite ? true : false, stopOnErr: true }, this._respond.bind(this));
     },
 
     describe: function(res, path)
     {
       this.res = res;
-      if (!this._authorize(this.authorizer.__self.OPERATION_READ, path)) return;
+      if (!this._authorize(this.authorizer.__self.OPERATION_FILE_READ, path)) return;
       if (!this.fsModule.existsSync(path)) {
         return this.sendResult(res, { result: this.__self.DOES_NOT_EXIST });
       }

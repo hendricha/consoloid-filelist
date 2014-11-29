@@ -5,7 +5,7 @@ defineClass('Consoloid.FileList.Server.MockAccessAuthorizer', 'Consoloid.Server.
     }
   },
   {
-    OPERATION_READ: 0,
-    OPERATION_WRITE: 1
+    OPERATION_FILE_READ: 0,
+    OPERATION_FILE_WRITE: 1
   }
 );

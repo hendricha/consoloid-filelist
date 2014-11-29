@@ -10,7 +10,7 @@ defineClass('Consoloid.FileList.Server.FileGetter', 'Consoloid.FileList.Server.A
     getFile: function(res, path)
     {
       this.res = res;
-      if (!this._authorize(this.authorizer.__self.OPERATION_READ, path)) {
+      if (!this._authorize(this.authorizer.__self.OPERATION_FILE_READ, path)) {
         return;
       }
 
