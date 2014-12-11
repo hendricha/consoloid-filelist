@@ -1,4 +1,4 @@
-defineClass('Consoloid.FileList.Server.UploadFile', 'Consoloid.FileList.Server.AuthorizingService',
+defineClass('Consoloid.FileList.Server.UploadFile', 'Consoloid.Server.Service',
   {
     __constructor: function(options)
     {
@@ -11,9 +11,17 @@ defineClass('Consoloid.FileList.Server.UploadFile', 'Consoloid.FileList.Server.A
 
     process: function(res, values)
     {
-      this.res = res;
       this.path = values.path + "/";
-      if (!this._authorize(this.authorizer.__self.OPERATION_FILE_WRITE, this.path)) return;
+      try {
+        var authorizer = this.get("file.access.authorizer");
+        authorizer.authorize(authorizer.__self.OPERATION_FILE_WRITE, this.path, res.socket);
+      } catch (e) {
+        this.sendResult(res, {
+          result: 'error',
+          errors: { path: e.toString() }
+        });
+        return;
+      }
 
       this.sendResult(res, {
         result: 'ok',
