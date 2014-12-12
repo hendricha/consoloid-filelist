@@ -13,3 +13,12 @@ iframe.file.show {
 .list-wrapper {
 	min-height: 400px;
 }
+
+.ui.header.checkbox > .drop.zone {
+	position: absolute;
+	z-index: 19;
+}
+
+.breadcrumb .drop.zone {
+	display: block;
+}

@@ -8,26 +8,31 @@
         <% if (i < splittedPath.length - 1) { %>
           <% currentAbsolutePath += splittedPath[i] + "/"; %>
           <div class="section">
-            <div class="drop zone" style="display:none;" data-path="<%= currentAbsolutePath %>"><%= __("Here") %></div>
+            <div class="mini ui button drop zone" style="display:none;" data-path="<%= currentAbsolutePath %>"><%= __("Here") %></div>
             <%= __s("Show file view", { "of folder <value>": currentAbsolutePath }, splittedPath[i] || "/", true) %>
           </div>
           <i class="right arrow icon divider"></i>
         <% } else { %>
-          <div class="active section"><%= splittedPath[i] %></div>
+          <div class="active section">
+            <span class="mini ui button drop zone" style="display:none;" data-path="<%= this.path %>"><%= __("Here") %></span>
+            <%= splittedPath[i] %>
+          </div>
         <% }; %>
       <% }; %>
     </div>
     <div class="float right toolbar">
       <%= __s("Upload files", { "to <value>": this.path }, null, true) %>
       <%= __s("New folder", {}, null, true) %>
-      <span class="drop zone" style="display:none;" data-path="<%= this.path %>"><%= __("Here") %></span>
+
     </div>
 
     <div class="sidebar container">
       <div class="selection sidebar" style="display: none">
-        <%= __s("Copy the selection") %>
+        <span class="dropper">
+          <%= __s("Copy the selection") %>
+          <%= __s("Move the selection") %>
+        </span>
         <%= __s("Delete the selection") %>
-        <%= __s("Move the selection") %>
         <%= __s("Clear the selection", null, null, true) %>
       </div>
       <div><%= this.create("Consoloid.Widget.JQoteTemplate", { id: 'Consoloid-Ui-List-Dialog', container: this.container }).get().jqote(this) %></div>

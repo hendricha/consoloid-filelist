@@ -10,6 +10,8 @@ defineClass('Consoloid.FileList.DropzoneController', 'Consoloid.Base.Object',
         $this.hide();
       });
       node.delegate(".dropper a", "click", this.show.bind(this));
+      $(".prompt").on("click", this.hide);
+      $(".prompt input").on("keydown", this.hide);
     },
 
     show: function() {
