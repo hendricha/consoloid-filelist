@@ -8,7 +8,7 @@
 
 <script id="Consoloid-FileList-ItemHeader" type="text/x-jqote-template">
 <![CDATA[
-  <h4 class="ui header checkbox">
+  <h4 class="ui checkbox">
     <input type="checkbox">
     <% if (!this.data.isFile) { %>
       <span class="mini ui button drop zone" style="display:none;" data-path="<%= this.data.fullPath %>"><%= __("Here") %></span>

@@ -22,3 +22,12 @@ iframe.file.show {
 .breadcrumb .drop.zone {
 	display: block;
 }
+
+.file-list-item label {
+	color: #586e75 !important;
+	font-size: 1.1rem !important;
+}
+
+.file-list-item h4 {
+	top: -1em !important;
+}
