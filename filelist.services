@@ -45,10 +45,6 @@ definitions:
     cls: Consoloid.FileList.PathAbsolutifier
     shared: true
 
-  file.list.welcome.info:
-    cls: Consoloid.FileList.Dialog.Welcome
-    shared: true
-
   file.delete.sentence:
     tags: [ "sentence" ]
     cls: Consoloid.Interpreter.Sentence
