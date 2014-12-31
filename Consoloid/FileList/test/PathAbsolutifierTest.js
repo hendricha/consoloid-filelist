@@ -13,7 +13,10 @@ describeUnitTest('Consoloid.FileList.PathAbsolutifier', function() {
           getList: sinon.stub().returns({
             hasFile: sinon.stub().returns(true),
             hasFolder: sinon.stub().returns(true),
-            getPath: sinon.stub().returns("/something/something")
+            getPath: sinon.stub().returns("/something/something"),
+            getFiles: sinon.stub().returns([{
+              name: "foobar"
+            }])
           })
         }
       }])
@@ -41,7 +44,7 @@ describeUnitTest('Consoloid.FileList.PathAbsolutifier', function() {
       context.findByClass()[0].entity.getList().hasFile.returns(false);
 
       (function() {
-        validator.absolutifyFile("foobar");
+        validator.absolutifyFile("something");
       }).should.throwError();
     });
   });
@@ -70,7 +73,7 @@ describeUnitTest('Consoloid.FileList.PathAbsolutifier', function() {
       context.findByClass()[0].entity.getList().hasFolder.returns(false);
 
       (function() {
-        validator.absolutifyFolder("foobar");
+        validator.absolutifyFolder("something");
       }).should.throwError();
     });
   });
@@ -89,13 +92,27 @@ describeUnitTest('Consoloid.FileList.PathAbsolutifier', function() {
       context.findByClass()[0].entity.getList().hasFolder.returns(false);
       context.findByClass()[0].entity.getList().hasFile.returns(true);
 
-      validator.absolutifyFileDoesNotNeedToExist("foobar").should.equal("/something/something/foobar");
+      validator.absolutify("foobar").should.equal("/something/something/foobar");
 
       context.findByClass()[0].entity.getList().hasFolder.returns(true);
       context.findByClass()[0].entity.getList().hasFile.returns(false);
 
       validator.absolutify("foobar").should.equal("/something/something/foobar");
       context.findByClass.alwaysCalledWith('Consoloid.FileList.Context.List');
+    });
+
+    it("should return first match that starts with name if there is no direct match", function() {
+      context.findByClass()[0].entity.getList().hasFolder.returns(false);
+      context.findByClass()[0].entity.getList().hasFile.returns(false);
+
+      validator.absolutify("foo").should.equal("/something/something/foobar");
+    });
+
+    it("should return first match that starts with name case insensitively if there is no direct match", function() {
+      context.findByClass()[0].entity.getList().hasFolder.returns(false);
+      context.findByClass()[0].entity.getList().hasFile.returns(false);
+
+      validator.absolutify("fOO").should.equal("/something/something/foobar");
     });
   });
 

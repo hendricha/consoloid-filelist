@@ -104,6 +104,15 @@ defineClass('Consoloid.FileList.DataSource', 'Consoloid.Ui.List.DataSource.Array
     clearData: function()
     {
       this.dataReady = false;
+    },
+
+    getData: function()
+    {
+      if (!this.dataReady) {
+        throw new \Error("Data is not yet ready");
+      }
+
+      return this.data;
     }
   }
 );

@@ -49,6 +49,19 @@ defineClass('Consoloid.FileList.ListWidget', 'Consoloid.Ui.List.Widget',
     getSelection: function()
     {
       return this.selection;
+    },
+
+    getFiles: function(callback)
+    {
+      try {
+        return this.dataSource.getData();
+      } catch(e) {
+        if (e.message == "Data is not yet ready") {
+          return [];
+        }
+
+        throw e;
+      }
     }
   }
 );

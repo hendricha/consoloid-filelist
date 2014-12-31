@@ -12,6 +12,11 @@ defineClass('Consoloid.FileList.PathAbsolutifier', 'Consoloid.Base.Object',
         return this.__getLastFileListPath() + path;
       }
 
+      var firstSimilarPath = this.__getFirstSimilarPath(path);
+      if (firstSimilarPath) {
+        return firstSimilarPath;
+      }
+
       throw new Error(__("File or folder is either not referenced by absolute path, or not in last shown file list view."));
     },
 
@@ -45,6 +50,22 @@ defineClass('Consoloid.FileList.PathAbsolutifier', 'Consoloid.Base.Object',
     {
       var path = this.__getLastFileList().getPath();
       return (path[path.length - 1] == "/") ? path : path + "/";
+    },
+
+    __getFirstSimilarPath: function(path)
+    {
+      var firstSimiliarFile;
+      var files = this.__getLastFileList().getFiles().map(function(file) {
+        return file.name;
+      });
+      for (var i = 0; i < files.length; $i++) {
+        if (files[i].toLowerCase().indexOf(path.toLowerCase()) == 0) {
+          firstSimiliarFile = files[i];
+          break;
+        }
+      }
+
+      return this.__getLastFileListPath() + firstSimiliarFile;
     },
 
     absolutifyFolder: function(folder)
