@@ -58,14 +58,14 @@ defineClass('Consoloid.FileList.PathAbsolutifier', 'Consoloid.Base.Object',
       var files = this.__getLastFileList().getFiles().map(function(file) {
         return file.name;
       });
-      for (var i = 0; i < files.length; $i++) {
+      for (var i = 0; i < files.length; i++) {
         if (files[i].toLowerCase().indexOf(path.toLowerCase()) == 0) {
           firstSimiliarFile = files[i];
           break;
         }
       }
 
-      return this.__getLastFileListPath() + firstSimiliarFile;
+      return firstSimiliarFile ? this.__getLastFileListPath() + firstSimiliarFile : undefined;
     },
 
     absolutifyFolder: function(folder)
