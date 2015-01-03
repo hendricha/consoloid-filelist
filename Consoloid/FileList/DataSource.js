@@ -109,7 +109,7 @@ defineClass('Consoloid.FileList.DataSource', 'Consoloid.Ui.List.DataSource.Array
     getData: function()
     {
       if (!this.dataReady) {
-        throw new \Error("Data is not yet ready");
+        throw new Error("Data is not yet ready");
       }
 
       return this.data;
