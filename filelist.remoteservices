@@ -1,4 +1,10 @@
 definitions:
+  console_fielist_dialog_i18n_messages:
+    cls: Consoloid.I18n.YamlMessagesDirectoryLoader
+    options:
+      directoryName: Consoloid/FileList/Dialog/i18n
+    tags: [ "create-on-topic-load" ]
+
   server_listfiles:
     cls: Consoloid.FileList.Server.ListFiles
     shared: false

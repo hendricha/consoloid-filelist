@@ -1,0 +1,158 @@
+domain: Consoloid.FileList.Dialog
+messages:
+  -
+    source: Show file view
+    target: Mutasd a fájl nézetet
+  -
+    source: Show files of <folder>
+    target: Mutasd a <folder> fájljait
+  -
+    source: Show file view of <folder>
+    target: Mutasd a <folder> fájl nézetét
+  -
+    source: Browse folder <folder>
+    target: Böngészd a <folder> mappát
+  -
+    source: Browse files of <folder>
+    target: Böngészd a <folder> fájljait
+  -
+    source: of folder <value>
+    target: mappa <value>
+  -
+    source: Delete
+    target: Töröld
+  -
+    source: Remove
+    target: Távolítsd el
+  -
+    source: Delete <path>
+    target: Töröld <path>
+  -
+    source: Remove <path>
+    target: Távolítsd el <path>
+  -
+    source: path <value>
+    target: útvonal <value>
+  -
+    source: recursively
+    target: rekurzívan
+  -
+    source: Create folder
+    target: Hozz létre mappát
+  -
+    source: Create new folder
+    target: Hozz létre új mappát
+  -
+    source: New folder
+    target: Új mappa
+  -
+    source: Make directory
+    target: Készíts egy könyvtárat
+  -
+    source: Create folder <path>
+    target: Hozd lézte a <path> mappát
+  -
+    source: Create new folder <path>
+    target: Hozz létre egy új mappát <path> néven
+  -
+    source: New folder <path>
+    target: Új mappa <path>
+  -
+    source: Make directory <path>
+    target: Készítsd el a <path> könyvtárat
+  -
+    source: called <value>
+    target: neve <value>
+  -
+    source: Move
+    target: Mozgasd
+  -
+    source: Rename
+    target: Nevezd át
+  -
+    source: Move <source> to <target>
+    target: Mozgasd <source> forrást <target> célra
+  -
+    source: Rename <source> to <target>
+    target: Nevezd át <source> forrást <target> névre
+  -
+    source: from <value>
+    target: forrás <value>
+  -
+    source: to <value>
+    target: cél <value>
+  -
+    source: overwrite
+    target: írd felül
+  -
+    source: Copy
+    target: Másold
+  -
+    source: Copy <source> to <target>
+    target: Másold <source> forrást <target> célra
+  -
+    source: Upload files
+    target: Tölts fel fájlokat
+  -
+    source: Upload files to <folder>
+    target: Tölts fel fájlokat <folder> mappába
+  -
+    source: Upload
+    target: Feltöltés
+  -
+    source: Files
+    target: Fájlok
+  -
+    source: Path
+    target: Elérési út
+  -
+    source: Display
+    target: Jelenítsd meg
+  -
+    source: Open
+    target: Nyisd meg
+  -
+    source: Display file <path>
+    target: Jelenítsd meg <path> fájlt
+  -
+    source: Open file <path>
+    target: Nyised meg <path> fájlt
+  -
+    source: file <value>
+    target: fájl <value>
+  -
+    source: Clear the selection
+    target: Szüntesd meg a kijelölést
+  -
+    source: Clear the selection of <name>
+    target: Szüntesd meg <name> kijelölését
+  -
+    source: of <value>
+    target: ennek <value>
+  -
+    source: Copy the selection
+    target: Másold a kijelölést
+  -
+    source: Move the selection
+    target: Helyezd át a kijelölést
+  -
+    source: Delete the selection
+    target: Töröld a kijelölést
+  -
+    source: 'More'
+    target: 'Részletek'
+  -
+    source: 'Browsed folder'
+    target: 'Böngészett mappa'
+  -
+    source: 'Last modified'
+    target: 'Utoljára módosítva'
+  -
+    source: 'Size'
+    target: 'Méret'
+  -
+    source: 'Show'
+    target: 'Mutasd'
+  -
+    source: 'Folder does not exist'
+    target: 'Mappa nem létezik'
